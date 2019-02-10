@@ -7,6 +7,8 @@ import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
 import { Admin } from '@components/admin/admin.component';
 import { Lasercutter } from '@components/lasercutter/lasercutter.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+
 
 
 @NgModule({
@@ -21,6 +23,7 @@ import { Lasercutter } from '@components/lasercutter/lasercutter.component';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

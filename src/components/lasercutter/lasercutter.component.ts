@@ -19,16 +19,6 @@ import {LaserCutterService } from '@services/lasercutter.service';
   providers: [LaserCutterService],
 })
 
-//<input (keyup)="onKey($event)">
-//<p>{{values}}</p>
-
-
-// <b> {{airport.city}} </b>
-// </li>
-//<button (click)="onClickMe()">Airport Name</button>
-//  {{air | json}}
-//  <br>
-//  <h1>{{test}}</h1>
 
 export class Lasercutter implements OnInit{
 
@@ -42,7 +32,8 @@ export class Lasercutter implements OnInit{
   responseHanes: Response;
   responseMurray: Response;
 
-  activeQueue: Queue[];
+  activeMurray: Queue[];
+  activeHanes: Queue[];
   murrayQueue: Queue[];
   hanesQueue: Queue[];
 
@@ -51,7 +42,6 @@ export class Lasercutter implements OnInit{
     //this.lasercutter.getQueue().subscribe(data=>{this.activeQueue=data.data});
     this.lasercutter.getQueueAtLocation("Hanes").subscribe(data=>{this.hanesQueue = data.data, this.newDate(this.hanesQueue)});
     this.lasercutter.getQueueAtLocation("Murray").subscribe(data=>{this.murrayQueue = data.data, this.newDate(this.murrayQueue)});
-
 
 
     this.startTimer();
@@ -69,9 +59,9 @@ export class Lasercutter implements OnInit{
         hour = hour -12;
         time = "PM"
       }
-      var min = temp.getMinutes().toString();
-      var sec = temp.getSeconds().toString();
-      queue.create_date = hour.toString()+':'+min+':'+sec+' '+time;
+      var min ="0"+ temp.getMinutes().toString();
+      var sec ="0" + temp.getSeconds().toString();
+      queue.create_date = hour.toString()+':'+ min.substr(-2)+':' + sec.substr(-2)+' '+time;
     }
   }
 startTimer() {

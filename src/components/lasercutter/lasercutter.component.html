@@ -1,21 +1,16 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
-			<ul class="nav">
-				<li class="nav-item">
-					<a class="nav-link active" routerLink="/login">Admin</a>
-				</li>
-			</ul>
 			<div class="row">
 				<div class="col-md-4 offset-md-2">
 					<div class="d-flex justify-content-center">
-						<h3>
+						<h2>
 						Murray
-					</h3>
+					</h2>
 					</div>
-					<div class="card" *ngFor="let queue of murrayQueue">
+					<div class="card" *ngFor="let queue of murrayQueue; let i = index">
 						<h5 class="card-header">
-							{{queue._id}}
+							Patron: {{i+1}}
 						</h5>
 						<div class="card-body">
 							<p class="card-text">
@@ -28,13 +23,13 @@
 
 				<div class="col-md-4">
 						<div class="d-flex justify-content-center">
-					<h3>
+					<h2>
 						Hanes Art Center
-					</h3>
+					</h2>
 					</div>
-          <div class="card" *ngFor="let queue of hanesQueue">
+          <div class="card" *ngFor="let queue of hanesQueue; let i = index">
 						<h5 class="card-header">
-							{{queue._id}}
+							Patron: {{i+1}}
 						</h5>
 						<div class="card-body">
 							<p class="card-text">

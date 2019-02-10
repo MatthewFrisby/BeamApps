@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OnInit } from '@angular/core';
@@ -35,7 +36,8 @@ export class Admin implements OnInit {
   responseHanes: Response;
   responseMurray: Response;
 
-  activeQueue: Queue[];
+  activeMurray: Queue[];
+  activeHanes: Queue[];
   murrayQueue: Queue[];
   hanesQueue: Queue[];
 
@@ -63,9 +65,9 @@ export class Admin implements OnInit {
         hour = hour -12;
         time = "PM"
       }
-      var min = temp.getMinutes().toString();
-      var sec = temp.getSeconds().toString();
-      queue.create_date = hour.toString()+':'+min+':'+sec+' '+time;
+      var min ="0"+ temp.getMinutes().toString();
+      var sec ="0" + temp.getSeconds().toString();
+      queue.create_date = hour.toString()+':'+ min.substr(-2)+':' + sec.substr(-2)+' '+time;
     }
   }
 
@@ -77,6 +79,17 @@ export class Admin implements OnInit {
     this.lasercutter.logout().subscribe(data => { });
   }
 
+
+  drop(event: CdkDragDrop<string[]>) {
+  if (event.previousContainer === event.container) {
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+  } else {
+    transferArrayItem(event.previousContainer.data,
+                      event.container.data,
+                      event.previousIndex,
+                      event.currentIndex);
+  }
+}
   removeFromQueue(queue: Queue) {
     //var target = event.target.attributes.id;
    //var value = target.nodeValue;
