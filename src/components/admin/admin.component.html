@@ -1,0 +1,93 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="nav">
+				<li class="nav-item">
+					<button class="btn btn-success" routerLink="/login">Admin</button>
+					<button type="button" (click)="onClick()" class="btn btn-success" >
+								Logout
+					</button>
+				</li>
+			</ul>
+			<div class="row">
+				<div class="col-md-4 offset-md-2">
+					<div class="d-flex justify-content-center">
+					<h3>
+						Murray
+					</h3>
+					</div>
+					<div class="card" *ngFor="let queueMurray of murrayQueue " >
+						<div class="float-right">
+						<button type="button"  (click)="removeFromQueue(queueMurray)" class="close" aria-label="Close">
+  					<span aria-hidden="true">&times;</span>
+						</button>
+						</div>
+						<h5 class="card-header">
+							{{queueMurray.name}}
+						</h5>
+						<div class="card-body">
+							<p class="card-text">
+									Check-In Time: {{queueMurray.create_date}}
+							</p>
+						</div>
+					</div>
+					{{time}}
+				</div>
+
+				<div class="col-md-4">
+					<div class="d-flex justify-content-center">
+					<h3>
+						Hanes Art Center
+					</h3>
+					</div>
+          <div class="card" *ngFor="let queueHanes of hanesQueue">
+						<div class="float-right">
+						<button type="button"  (click)="removeFromQueue(queueHanes)" class="close" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+						</div>
+						<h5 class="card-header">
+							{{queueHanes.name}}
+						</h5>
+						<div class="card-body">
+							<p class="card-text">
+									Check-In Time: {{queueHanes.create_date}}
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<br>
+<br>
+<br>
+
+</div>
+
+<footer class="page-footer">
+  <div class="container fixed-bottom text-center" style="padding-bottom: 5%">
+	<div class="col-md-4">
+			</div>
+			<div class="col-md-4 card">
+	<form [formGroup]="lasercutterForm" (ngSubmit)="onSubmit()">
+	    <div class="form-group">
+	        <label for="name">Patron's Name</label>
+	        <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+	        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+	            <div *ngIf="f.name.errors.required">Name is required</div>
+	        </div>
+	    </div>
+	    <div class="form-group">
+	        <label for="location">Location</label>
+      		<input type="radio" formControlName="location" value="Murray"> Murray
+					<input type="radio" formControlName="location" value="Hanes"> Hanes Art Center
+			</div>
+	    <div class="form-group">
+	        <button [disabled]="loading" class="btn btn-primary">Add Patron</button>
+	        <img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+	    </div>
+	</form>
+</div>
+</div>
+</footer>

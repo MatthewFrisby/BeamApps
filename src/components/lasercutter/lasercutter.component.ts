@@ -1,0 +1,92 @@
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { OnInit } from '@angular/core';
+import { first } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { Queue } from '@models/queue.model';
+import { Response } from '@models/response.model';
+
+
+
+
+import {LaserCutterService } from '@services/lasercutter.service';
+
+@Component({
+  selector: 'lasercutter-root',
+  templateUrl: './lasercutter.component.html',
+  providers: [LaserCutterService],
+})
+
+//<input (keyup)="onKey($event)">
+//<p>{{values}}</p>
+
+
+// <b> {{airport.city}} </b>
+// </li>
+//<button (click)="onClickMe()">Airport Name</button>
+//  {{air | json}}
+//  <br>
+//  <h1>{{test}}</h1>
+
+export class Lasercutter implements OnInit{
+
+  constructor(
+      private router: Router,
+      private lasercutter: LaserCutterService,
+      //private home: Home,
+      //private account: Account,
+  ) {}
+  responseAll: Response;
+  responseHanes: Response;
+  responseMurray: Response;
+
+  activeQueue: Queue[];
+  murrayQueue: Queue[];
+  hanesQueue: Queue[];
+
+
+  ngOnInit() {
+    //this.lasercutter.getQueue().subscribe(data=>{this.activeQueue=data.data});
+    this.lasercutter.getQueueAtLocation("Hanes").subscribe(data=>{this.hanesQueue = data.data, this.newDate(this.hanesQueue)});
+    this.lasercutter.getQueueAtLocation("Murray").subscribe(data=>{this.murrayQueue = data.data, this.newDate(this.murrayQueue)});
+
+
+
+    this.startTimer();
+  }
+
+  timeLeft: number = 60;
+  interval;
+
+  newDate(queueArray: Queue[]){
+    for (let queue of queueArray) {
+      var temp =  new Date(queue.create_date);
+      var hour = temp.getHours();
+      var time = "AM";
+      if (hour > 12){
+        hour = hour -12;
+        time = "PM"
+      }
+      var min = temp.getMinutes().toString();
+      var sec = temp.getSeconds().toString();
+      queue.create_date = hour.toString()+':'+min+':'+sec+' '+time;
+    }
+  }
+startTimer() {
+    this.interval = setInterval(() => {
+      if(this.timeLeft > 0) {
+        this.timeLeft--;
+      } else {
+        this.timeLeft = 60;
+        this.ngOnInit();
+      }
+    },1000)
+  }
+
+
+
+
+
+}
