@@ -52,6 +52,8 @@ export class Admin implements OnInit {
     //this.lasercutter.getQueue().subscribe(data => { this.activeQueue = data.data });
     this.lasercutter.getQueueAtLocationAdmin("Hanes").subscribe(data => { this.hanesQueue = data.data, this.newDate(this.hanesQueue) });
     this.lasercutter.getQueueAtLocationAdmin("Murray").subscribe(data => { this.murrayQueue = data.data, this.newDate(this.murrayQueue) });
+
+
   }
 
 
@@ -80,7 +82,7 @@ export class Admin implements OnInit {
   }
 
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<Queue[]>) {
   if (event.previousContainer === event.container) {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
   } else {
