@@ -8,35 +8,69 @@
 						Murray
 					</h2>
 					</div>
-					<div class="card" *ngFor="let queue of murrayQueue; let i = index">
-						<h5 class="card-header">
-							Patron: {{i+1}}
-						</h5>
+					<div *ngIf="murrayQueue.length == 0; else elseBlockMur">
+						<div class="card"  [ngStyle]="{'background-color': '#DDDDDE'}">
+								<h2 class="card-header text-center text-white"  [ngStyle]="{'background-color': '#58595b'}">
+									Queue Is Empty
+									</h2>
+						</div>
+						</div>
+						<ng-template #elseBlockMur>
+
+
+					<div class="card"  [ngStyle]="{'background-color': !queue.in_queue? '#DDDDDE' : '#7CAFD4'}" *ngFor="let queue of murrayQueue; let i = index">
+
+							<h2 class="card-header text-center text-white"  [ngStyle]="{'background-color': !queue.in_queue? '#58595b' : '#1D3E55'}">
+								Patron: {{i+1}}
+								</h2>
 						<div class="card-body">
-							<p class="card-text">
-								Check-In Time: {{queue.create_date}}
-							</p>
+							<div *ngIf="!queue.in_queue; else elseBlock">
+								<h3 class="card-text text-center">
+									Check-In Time: {{queue.create_date}}
+								</h3>
+								</div>
+								<ng-template #elseBlock>
+									<h3 class="card-text text-center">User Has Until: {{queue.timeLeft}}</h3>
+								</ng-template>
 						</div>
 					</div>
+					</ng-template>
+
 				</div>
-
-
 				<div class="col-md-4">
 						<div class="d-flex justify-content-center">
 					<h2>
 						Hanes Art Center
 					</h2>
 					</div>
-          <div class="card" *ngFor="let queue of hanesQueue; let i = index">
-						<h5 class="card-header">
+
+					<div *ngIf="hanesQueue.length == 0; else elseBlockHan">
+						<div class="card"  [ngStyle]="{'background-color': '#DDDDDE'}">
+
+								<h2 class="card-header text-center text-white"  [ngStyle]="{'background-color': '#58595b'}">
+									Queue Is Empty
+									</h2>
+
+						</div>
+						</div>
+						<ng-template #elseBlockHan>
+          <div class="card" [ngStyle]="{'background-color': !queue.in_queue? '#DDDDDE' : '#7CAFD4'}" *ngFor="let queue of hanesQueue; let i = index">
+						<h2 class="card-header text-white" [ngStyle]="{'background-color': !queue.in_queue? '#58595b' : '#1D3E55'}">
 							Patron: {{i+1}}
-						</h5>
+						</h2>
 						<div class="card-body">
-							<p class="card-text">
+
+							<div *ngIf="!queue.in_queue; else elseBlock">
+								<h3 class="card-text text-center">
 									Check-In Time: {{queue.create_date}}
-							</p>
+								</h3>
+								</div>
+								<ng-template #elseBlock>
+									<h3 class="card-text text-center">User Has Until: {{queue.timeLeft}}</h3>
+								</ng-template>
 						</div>
 					</div>
+					</ng-template>
 				</div>
 			</div>
 		</div>

@@ -8,6 +8,11 @@ import { map } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Queue } from '@models/queue.model';
 import { Response } from '@models/response.model';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import { timer } from 'rxjs';
+
+
 
 
 
@@ -38,8 +43,13 @@ export class Admin implements OnInit {
 
   activeMurray: Queue[];
   activeHanes: Queue[];
-  murrayQueue: Queue[];
-  hanesQueue: Queue[];
+  murrayQueue: Queue[]=[];
+  hanesQueue: Queue[]=[];
+
+  timeLeft: number = 60;
+  interval;
+
+
 
 
   ngOnInit() {
@@ -52,6 +62,8 @@ export class Admin implements OnInit {
     //this.lasercutter.getQueue().subscribe(data => { this.activeQueue = data.data });
     this.lasercutter.getQueueAtLocationAdmin("Hanes").subscribe(data => { this.hanesQueue = data.data, this.newDate(this.hanesQueue) });
     this.lasercutter.getQueueAtLocationAdmin("Murray").subscribe(data => { this.murrayQueue = data.data, this.newDate(this.murrayQueue) });
+
+
 
 
   }
@@ -74,6 +86,10 @@ export class Admin implements OnInit {
   }
 
   onSubmit() {
+    if(this.lasercutterForm.controls['location'].value == "Hanes Art Center"){
+      this.lasercutterForm.controls['location'].setValue("Hanes");
+
+    }
     this.lasercutter.addUserToQueueAdmin(this.lasercutterForm.value).subscribe(data=>{console.log(data), this.ngOnInit()});
 
   }
@@ -101,6 +117,45 @@ export class Admin implements OnInit {
 
     return true;
   }
+
+  queueUpOrDown(queue: Queue){
+    this.haveUntil(queue, Date.now());
+    this.lasercutter.toggleOnCutter(queue._id, queue.timeLeft).subscribe(response=>{console.log(response), this.ngOnInit()});
+  }
+
+
+  startTimer() {
+      this.interval = setInterval(() => {
+        if(this.timeLeft > 0) {
+          this.timeLeft--;
+        } else {
+          this.timeLeft = 60;
+          this.ngOnInit();
+        }
+      },1000)
+    }
+
+    haveUntil(queue: Queue, date: any){
+
+      var plus = date + 5400000;
+      var temp =  new Date(plus);
+      var hour = temp.getHours();
+      var time = "AM";
+      if (hour > 12){
+        hour = hour -12;
+        time = "PM"
+      }
+      var min ="0"+ temp.getMinutes().toString();
+      var sec ="0" + temp.getSeconds().toString();
+      queue.timeLeft = hour.toString()+':'+ min.substr(-2)+':' + sec.substr(-2)+' '+time;
+    }
+
+
+
+
+
+
+
 
 
 

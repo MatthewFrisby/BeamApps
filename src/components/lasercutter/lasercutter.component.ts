@@ -34,8 +34,8 @@ export class Lasercutter implements OnInit{
 
   activeMurray: Queue[];
   activeHanes: Queue[];
-  murrayQueue: Queue[];
-  hanesQueue: Queue[];
+  murrayQueue: Queue[] = [];
+  hanesQueue: Queue[] = [];
 
 
   ngOnInit() {
@@ -43,11 +43,10 @@ export class Lasercutter implements OnInit{
     this.lasercutter.getQueueAtLocation("Hanes").subscribe(data=>{this.hanesQueue = data.data, this.newDate(this.hanesQueue)});
     this.lasercutter.getQueueAtLocation("Murray").subscribe(data=>{this.murrayQueue = data.data, this.newDate(this.murrayQueue)});
 
-
     this.startTimer();
   }
 
-  timeLeft: number = 60;
+  timeLeft: number = 10;
   interval;
 
   newDate(queueArray: Queue[]){
@@ -69,7 +68,7 @@ startTimer() {
       if(this.timeLeft > 0) {
         this.timeLeft--;
       } else {
-        this.timeLeft = 60;
+        this.timeLeft = 10;
         this.ngOnInit();
       }
     },1000)

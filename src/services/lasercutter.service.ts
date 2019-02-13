@@ -54,6 +54,9 @@ export class LaserCutterService  {
     return this.http.delete<Response>(this._url+'/admin'+'/'+_id);
  }
 
+ toggleOnCutter(_id: string, time: string): Observable<Response>{
+   return this.http.put<Response>(this._url+'/admin/'+_id, {timeLeft: time});
+ }
 
 
 

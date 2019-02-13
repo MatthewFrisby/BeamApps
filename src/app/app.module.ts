@@ -8,6 +8,11 @@ import { AppComponent } from '@app/app.component';
 import { Admin } from '@components/admin/admin.component';
 import { Lasercutter } from '@components/lasercutter/lasercutter.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 
 
 
@@ -23,7 +28,10 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    DragDropModule
+    DragDropModule,
+    MatFormFieldModule,
+    MatInputModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
