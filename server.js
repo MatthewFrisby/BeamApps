@@ -9,7 +9,7 @@ var cors = require('cors');
 
 var db = mongoose.connection;
 //connect to MongoDB
-mongoose.connect(  process.env.MONGOLAB_URI || 'mongodb://localhost:27017/beamapi');
+mongoose.connect(  process.env.MONGODB_URI || 'mongodb://localhost:27017/beamapi');
 //mongoose.connect('mongodb://BEAM_admin:password12345@mongodb-persistent-r2xc4-dszj9:27017/beamdb');
 
 
