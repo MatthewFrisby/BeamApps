@@ -29,6 +29,7 @@ app.use(session({
   })
 }));
 
+app.use(express.static(__dirname + '/frontend/dist'));
 
 // parse incoming requests
 app.use(bodyParser.json());

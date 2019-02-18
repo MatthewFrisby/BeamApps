@@ -20,6 +20,8 @@
     "@angular/material": "^7.3.1",
     "@angular/platform-browser": "~7.1.0",
     "@angular/platform-browser-dynamic": "~7.1.0",
+    "@angular/cli": "~7.1.0",
+    "@angular/compiler-cli": "~7.1.0",
     "@angular/router": "~7.1.0",
     "bootstrap": "^4.2.1",
     "core-js": "^2.5.4",
@@ -27,7 +29,8 @@
     "rxjs": "~6.3.3",
     "rxjs-compat": "^6.3.3",
     "tslib": "^1.9.0",
-    "zone.js": "~0.8.26"
+    "zone.js": "~0.8.26",
+    "typescript": "~3.1.6"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.12.3",
