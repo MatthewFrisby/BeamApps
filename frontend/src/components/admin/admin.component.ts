@@ -56,7 +56,7 @@ export class Admin implements OnInit {
 
     this.lasercutterForm = this.formBuilder.group({
       name: ['', Validators.required],
-      location: ['', [Validators.required]]
+      location: ['', Validators.required]
     });
 
     //this.lasercutter.getQueue().subscribe(data => { this.activeQueue = data.data });
@@ -68,6 +68,7 @@ export class Admin implements OnInit {
 
   }
 
+   get f() { return this.lasercutterForm.controls; }
 
 
   newDate(queueArray: Queue[]){
