@@ -22,7 +22,7 @@ export class AuthenticationService {
 
 
     login(logusername: string, logpassword: string) {
-        return this.http.post<any>("http://localhost:3000/lasercutter", { logusername, logpassword }, { observe: 'response' });
+        return this.http.post<any>("https://beam-lasercutter.herokuapp.com/api/lasercutter", { logusername, logpassword }, { observe: 'response' });
     }
 
     logout() {

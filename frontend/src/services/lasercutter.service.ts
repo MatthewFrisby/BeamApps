@@ -13,7 +13,7 @@ import { HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class LaserCutterService  {
 
-  private _url: string = "http://localhost:3000/lasercutter"
+  private _url: string = "https://beam-lasercutter.herokuapp.com/api/lasercutter"
 
 
   constructor(private http: HttpClient) { }
