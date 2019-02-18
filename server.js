@@ -9,7 +9,7 @@ var cors = require('cors');
 
 var db = mongoose.connection;
 //connect to MongoDB
-mongoose.connect( 'mongodb://localhost:27017/beamapi');
+mongoose.connect(  process.env.MONGOLAB_MAUVE_URI || 'mongodb://localhost:27017/beamapi');
 //mongoose.connect('mongodb://BEAM_admin:password12345@mongodb-persistent-r2xc4-dszj9:27017/beamdb');
 
 
@@ -58,10 +58,7 @@ app.use(function (err, req, res, next) {
 
 
 // listen on port 3000
-let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 3000;
-}
+port = process.env.PORT || 3000;
 
 app.listen(port, function () {
   console.log('Express app listening on port 3000');
