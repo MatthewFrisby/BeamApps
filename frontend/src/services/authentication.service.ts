@@ -15,6 +15,9 @@ export class AuthenticationService {
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
+    //private _url: string = "https://localhost:3000/api/lasercutter"
+    private _url: string = "https://beam-lasercutter.herokuapp.com/api/lasercutter"
+
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
     }
@@ -22,7 +25,7 @@ export class AuthenticationService {
 
 
     login(logusername: string, logpassword: string) {
-        return this.http.post<any>("https://beam-lasercutter.herokuapp.com/api/lasercutter", { logusername, logpassword }, { observe: 'response' });
+        return this.http.post<any>(this._url, { logusername, logpassword }, { observe: 'response' });
     }
 
     logout() {
