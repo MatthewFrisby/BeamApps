@@ -37,17 +37,22 @@ export class Lasercutter implements OnInit{
   murrayQueue: Queue[] = [];
   hanesQueue: Queue[] = [];
 
+  hanesBool: Boolean;
+  murrayBool: Boolean;
+  timeLeft: number = 20;
+  interval;
 
   ngOnInit() {
     //this.lasercutter.getQueue().subscribe(data=>{this.activeQueue=data.data});
-    this.lasercutter.getQueueAtLocation("Hanes").subscribe(data=>{this.hanesQueue = data.data, this.newDate(this.hanesQueue), this.startTimer()});
-    this.lasercutter.getQueueAtLocation("Murray").subscribe(data=>{this.murrayQueue = data.data, this.newDate(this.murrayQueue), this.startTimer()});
+    this.timeLeft = 20;
+    this.lasercutter.getQueueAtLocation("Hanes").subscribe(data=>{this.hanesQueue = data.data, this.newDate(this.hanesQueue), this.lasercutter.getQueueAtLocation("Murray").subscribe(data=>{this.murrayQueue = data.data, this.newDate(this.murrayQueue), this.startTimer(true)});});
+
+
 
 
   }
 
-  timeLeft: number = 10;
-  interval;
+
 
   newDate(queueArray: Queue[]){
     for (let queue of queueArray) {
@@ -63,15 +68,18 @@ export class Lasercutter implements OnInit{
       queue.create_date = hour.toString()+':'+ min.substr(-2)+':' + sec.substr(-2)+' '+time;
     }
   }
-startTimer() {
+startTimer(bool: Boolean) {
+  if(bool == true){
     this.interval = setInterval(() => {
       if(this.timeLeft > 0) {
         this.timeLeft--;
+        //console.log(this.timeLeft);
       } else {
-        this.timeLeft = 10;
         this.ngOnInit();
+        clearInterval(this.interval);
       }
     },1000)
+  }
   }
 
 
