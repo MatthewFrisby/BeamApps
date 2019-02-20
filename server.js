@@ -29,7 +29,15 @@ app.use(session({
   })
 }));
 
-app.use(express.static(__dirname + '/frontend/dist/lasercutterqueue/index.html'));
+//app.use(express.static(__dirname + '/frontend/dist/lasercutterqueue/index.html'));
+
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, '/frontend/dist/lasercutterqueue/index.html'), function(err) {
+    if (err) {
+      res.status(500).send(err)
+    }
+  })
+})
 
 // parse incoming requests
 app.use(bodyParser.json());
