@@ -29,7 +29,7 @@ app.use(session({
   })
 }));
 
-app.use(express.static(__dirname + '/frontend/dist/lasercutterqueue'));
+app.use(express.static(__dirname + '/frontend/dist/lasercutterqueue/index.html'));
 
 // parse incoming requests
 app.use(bodyParser.json());
