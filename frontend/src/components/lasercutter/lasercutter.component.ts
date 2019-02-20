@@ -39,12 +39,12 @@ export class Lasercutter implements OnInit{
 
   hanesBool: Boolean;
   murrayBool: Boolean;
-  timeLeft: number = 20;
+  timeLeft: number = 10;
   interval;
 
   ngOnInit() {
     //this.lasercutter.getQueue().subscribe(data=>{this.activeQueue=data.data});
-    this.timeLeft = 20;
+    this.timeLeft = 5;
     this.lasercutter.getQueueAtLocation("Hanes").subscribe(data=>{this.hanesQueue = data.data, this.newDate(this.hanesQueue), this.lasercutter.getQueueAtLocation("Murray").subscribe(data=>{this.murrayQueue = data.data, this.newDate(this.murrayQueue), this.startTimer(true)});});
 
 
