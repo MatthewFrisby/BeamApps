@@ -40,10 +40,10 @@ export class Lasercutter implements OnInit{
 
   ngOnInit() {
     //this.lasercutter.getQueue().subscribe(data=>{this.activeQueue=data.data});
-    this.lasercutter.getQueueAtLocation("Hanes").subscribe(data=>{this.hanesQueue = data.data, this.newDate(this.hanesQueue)});
-    this.lasercutter.getQueueAtLocation("Murray").subscribe(data=>{this.murrayQueue = data.data, this.newDate(this.murrayQueue)});
+    this.lasercutter.getQueueAtLocation("Hanes").subscribe(data=>{this.hanesQueue = data.data, this.newDate(this.hanesQueue), this.startTimer()});
+    this.lasercutter.getQueueAtLocation("Murray").subscribe(data=>{this.murrayQueue = data.data, this.newDate(this.murrayQueue), this.startTimer()});
 
-    this.startTimer();
+
   }
 
   timeLeft: number = 10;
