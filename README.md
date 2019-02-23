@@ -12,7 +12,7 @@ This project is broken into two parts, the [Node.js](https://nodejs.org/en/), [M
 ## Downloads
 
 ### Git
-First make sure you have a github account, if not register for one. Git is our repository for all things related to this project and helps us keep track of updates, issues, and who is contributing to the project. You will need to install git on your computer [Here] (https://git-scm.com/downloads) 
+First make sure you have a github account, if not register for one. Git is our repository for all things related to this project and helps us keep track of updates, issues, and who is contributing to the project. You will need to install git on your computer [Here] (https://git-scm.com/downloads)
 
 ### Node.js and NPM
 Node.js is our javascript runtime, and it will be allowing us to compile and run our code and the dependencies
@@ -64,10 +64,10 @@ Here are the commands to run IN ORDER:
 
 Once all of those look like they are done you can open your browser and go to [http://localhost:4200](http://localhost:4200) to see the Laser Cutter Queue
 
-### Somethings to note
+### Some Things To Note
 1. Your browser may try to open [http://localhost:3000](http://localhost:3000) with what looks exactly like what is on http://localhost:4200 but what you are seeing on http://localhost:3000 is the completely built application. If you make any changes they will not appear there because they are not happening there. To update the built application you can go to the frontend folder in the terminal and run ```ng build --prod``` to update.
 
-2. Because you have just created a new database when loading, you will not have an admin account registered, to do so navigate to [http://localhost:3000](http://localhost:3000) and open your developer tools. In the console of the dev tools paste and run this command with your own username and password: 
+2. Because you have just created a new database when loading, you will not have an admin account registered, to do so navigate to [http://localhost:3000](http://localhost:3000) and open your developer tools. In the console of the dev tools paste and run this command with your own username and password:
 ```
 fetch('http://localhost:3000/lasercutter', {
   method: 'POST',
@@ -83,7 +83,7 @@ fetch('http://localhost:3000/lasercutter', {
 .then(res => res.json())
 .then(console.log)
 ```
-3. Lastly you may run into issues dealing with cookies locally, that is fine, that works completely when served. Most browsers refuse to save cookies coming from local sources due to security issues so if ever you are not getting access while developing, follow the steps of #2 but use this command instead 
+3. Lastly you may run into issues dealing with cookies locally, that is fine, that works completely when served. Most browsers refuse to save cookies coming from local sources due to security issues so if ever you are not getting access while developing, follow the steps of #2 but use this command instead
 ```
 fetch('http://localhost:3000/lasercutter', {
   method: 'POST',
@@ -109,5 +109,3 @@ Suggested editor for working on this, and all, web projects is [Atom](https://at
 [Express](https://expressjs.com/en/guide/routing.html)
 [MongoDB](https://mongoosejs.com/docs/guide.html)
 [Angular](https://angular.io/docs)
-
-
