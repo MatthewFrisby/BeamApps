@@ -9,11 +9,11 @@ Live Laser Cutter Queue
 Steps below to walk you through necessary downloads, installations, and setup
 
 ## Introduction
-his project is divided into two parts: 
+This project is divided into two parts: 
 1. the [Node.js](https://nodejs.org/en/), [MongoDB](https://www.mongodb.com/download-center/community), and [Express](https://expressjs.com/) backend 
 2. the [Angular](https://angular.io/) front-end
 
-The app is hosted on [Heroku](https://heroku.com)
+The app is hosted on [Heroku](https://heroku.com) and can be viewed [Here](http://beam-lasercutter.herokuapp.com)
 
 ## Downloads
 
