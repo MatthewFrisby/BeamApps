@@ -10,7 +10,7 @@ Steps below to walk you through necessary downloads, installations, and setup
 
 ## Introduction
 This project is divided into two parts: 
-1. the [Node.js](https://nodejs.org/en/), [MongoDB](https://www.mongodb.com/download-center/community), and [Express](https://expressjs.com/) backend 
+1. the [Node.js](https://nodejs.org/en/), [MongoDB](https://www.mongodb.com/download-center/community), and [Express](https://expressjs.com/) back-end 
 2. the [Angular](https://angular.io/) front-end
 
 The app is hosted on [Heroku](https://heroku.com) and can be viewed [Here](http://beam-lasercutter.herokuapp.com)
@@ -18,13 +18,12 @@ The app is hosted on [Heroku](https://heroku.com) and can be viewed [Here](http:
 ## Downloads
 
 ### Git
-First make sure you have a github account, if not register for one. Git is our repository for all things related to this project and helps us keep track of updates, issues, and who is contributing to the project. You will need to install git on your computer [Here](https://git-scm.com/downloads)
+First, register for a GitHub account if you haven't already. Git is a repository service that helps keep track of updates, issues, and project contributors. Install Git on your computer [Here](https://git-scm.com/downloads)
 
 ### Node.js and NPM
-Node.js is our javascript runtime, and it will be allowing us to compile and run our code and the dependencies
-NPM (Node Package Manager) is exactly that, it handles our project packages (dependencies) and keeps them neatly organized for us
+Node.js is a javascript runtime, which allows us to compile and run both the code and the dependencies. NPM (Node Package Manager) organizes our project packages (dependencies).
 
-First thing you are going to need to do is install Node.js, you can find the install package [Here](https://nodejs.org/en/). Once that is installed completely it open your command prompt (Windows) or terminal (Mac OSX) and run
+Install Node.js through the installation package [Here](https://nodejs.org/en/). Once installed, open the command prompt (Windows) or terminal (Mac OSX) to run
 ```
 node -v
 ```
@@ -32,20 +31,21 @@ and
 ```
 npm -v
 ```
-doing so for both just to double check that both npm and node were installed and correctly set as environment variables on your system.
-Lastly, just to make development easier use npm to install nodemon globally ```npm install -g nodemon``` Nodemon makes development easier for us because it refreshes your local Node server everytime you save a change, otherwise you will need to refresh it yourself manually.
+to confirm that both NPM and Node.js were correctly installed and set as environmental variables on your system.
+
+Then, use NPM to install Nodemon globally ```npm install -g nodemon```. Nodemon eases the development process by automatically refreshing your local Node server every time a change is saved.
 
 ### MongoDB
-MongoDB is a NoSQL database system that stores entries in documents and those documents are stored in collections, we primarly use MongoDB because it will return our requests as JSON which makes it much easier to parse with Node.js and Angular.
+MongoDB is a NoSQL database system that stores entries as documents that are then organized in collections. MongoDB returns requests as JSON, making it easier to parse with Node.js and Angular.
 
-To install MongoDB follow the link [Here](https://www.mongodb.com/download-center/community) and after it is done running you should be able to go back to your terminal and run ```mongod``` to start a database server locally. The data is persisted even when you close the server down so don't worry about running it and terminating it often.
+To install MongoDB, follow the link [Here](https://www.mongodb.com/download-center/community). Once the installation is complete, return to your terminal and run ```mongod``` to start a database server locally. The data persists when the server is closed - don't worry about running and terminating the server often.
 
 ### Angular
-Angular is the frontend framework used for this project and unlike the Node.js backend, Angular is programmed in Typescript. Typescript compiles down to javascript and is overall very similar to it, but it helps us write neater code by keeping variables statically typed. To download Angular, go to your terminal and run
+Angular is the front-end framework used for this project. Unlike the Node.js back-end, Angular is programmed in TypeScript, which compiles down to JavaScript. TypeScript helps write neater code by keeping variables statically typed. To download Angular, go to your terminal and run
 ```
 npm install -g @angular/cli
 ```
-That will install the Angular client for you and will also create a new path variable. To check if it is properly installed run
+This will install the Angular client and create a new path variable. To confirm proper installation, run
 ```ng v```
 
 ## Getting The Project
