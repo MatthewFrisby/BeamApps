@@ -1,6 +1,8 @@
 # BeAM Web Applications
 Home of the BeAM API and BeAM Web Applications
+
 Live Laser Cutter Queue
+
 3D Printer Form (Coming Soon)
 
 # Getting Started
@@ -12,7 +14,7 @@ This project is broken into two parts, the [Node.js](https://nodejs.org/en/), [M
 ## Downloads
 
 ### Git
-First make sure you have a github account, if not register for one. Git is our repository for all things related to this project and helps us keep track of updates, issues, and who is contributing to the project. You will need to install git on your computer [Here] (https://git-scm.com/downloads)
+First make sure you have a github account, if not register for one. Git is our repository for all things related to this project and helps us keep track of updates, issues, and who is contributing to the project. You will need to install git on your computer [Here](https://git-scm.com/downloads)
 
 ### Node.js and NPM
 Node.js is our javascript runtime, and it will be allowing us to compile and run our code and the dependencies
