@@ -9,7 +9,11 @@ Live Laser Cutter Queue
 Steps below to walk you through necessary downloads, installations, and setup
 
 ## Introduction
-This project is broken into two parts, the [Node.js](https://nodejs.org/en/), [MongoDB](https://www.mongodb.com/download-center/community), and [Express](https://expressjs.com/) backend, the [Angular](https://angular.io/) front-end, and is hosted on [Heroku](https://heroku.com)
+his project is divided into two parts: 
+1. the [Node.js](https://nodejs.org/en/), [MongoDB](https://www.mongodb.com/download-center/community), and [Express](https://expressjs.com/) backend 
+2. the [Angular](https://angular.io/) front-end
+
+The app is hosted on [Heroku](https://heroku.com)
 
 ## Downloads
 
