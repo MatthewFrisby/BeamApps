@@ -23,7 +23,7 @@
     "@angular/cli": "~7.1.0",
     "@angular/compiler-cli": "~7.1.0",
     "@angular/router": "~7.1.0",
-    "bootstrap": "^4.2.1",
+    "bootstrap": ">=4.3.1",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
     "rxjs": "~6.3.3",
@@ -54,7 +54,7 @@
     "typescript": "~3.1.6"
   },
   "engines": {
-  "node": "10.15.0",
-  "npm": "6.7.0"
+    "node": "10.15.0",
+    "npm": "6.7.0"
   }
 }
