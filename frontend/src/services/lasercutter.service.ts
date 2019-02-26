@@ -35,7 +35,7 @@ private _url: string = "https://beam-lasercutter.herokuapp.com/api/lasercutter"
 
  getQueueAtLocationAdmin(location: string): Observable<Response>{
    const headers = new HttpHeaders({'Content-Type': 'Content-Type: application/json'});
-   return this.http.get<Response>(this._url+'/admin'+'/'+location);
+   return this.http.get<Response>(this._url+'/admin'+'/'+location, {withCredentials: true });
  }
 
  logout(){
@@ -46,25 +46,25 @@ private _url: string = "https://beam-lasercutter.herokuapp.com/api/lasercutter"
 
  addUserToQueueAdmin(queue: Queue): Observable<Queue>{
    const headers = new HttpHeaders({'Content-Type': 'Content-Type: application/json'});
-   return this.http.post<Queue>(this._url+'/admin', queue);
+   return this.http.post<Queue>(this._url+'/admin', queue, {withCredentials: true });
  }
 
  removeUserFromQueueAdmin(_id: string): Observable<Response>{
    const headers = new HttpHeaders({'Content-Type': 'Content-Type: application/json'});
-    return this.http.delete<Response>(this._url+'/admin'+'/'+_id);
+    return this.http.delete<Response>(this._url+'/admin'+'/'+_id, {withCredentials: true });
  }
 
  toggleOnCutter(_id: string, time: string): Observable<Response>{
-   return this.http.put<Response>(this._url+'/admin/'+_id, {timeLeft: time});
+   return this.http.put<Response>(this._url+'/admin/'+_id, {timeLeft: time}, {withCredentials: true });
  }
 
  toggleLive(_id: string, time: string): Observable<Response>{
-   return this.http.put<Response>(this._url+'/admin/remove/'+_id, {remove_date: time});
+   return this.http.put<Response>(this._url+'/admin/remove/'+_id, {remove_date: time}, {withCredentials: true });
  }
 
  getData(): Observable<Response>{
    const headers = new HttpHeaders({'Content-Type': 'Content-Type: application/xls'});
-   return this.http.get<Response>(this._url+"/admin");
+   return this.http.get<Response>(this._url+"/admin", {withCredentials: true });
  }
 
 
