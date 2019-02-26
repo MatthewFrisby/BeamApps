@@ -7,12 +7,11 @@ var cors = require('cors');
 var app = express();
 
 var corsOptions = {
-  credentials: true,
-  origin: 'http://localhost:4200'
+  credentials: true
 };
 
 //GET Lasercutter QUEUE Entries
-router.get('/api/lasercutter/admin', function(req, res, next) {
+router.get('/api/lasercutter/admin', cors(corsOptions), function(req, res, next) {
   LaserCutter.find({live: false}, {
     name: 1,
     live: 1,
@@ -65,7 +64,7 @@ router.get('/api/lasercutter/:location', function(req, res, next) {
 });
 
 
-router.get('/api/lasercutter/admin/:location', function(req, res, next) {
+router.get('/api/lasercutter/admin/:location',  cors(corsOptions), function(req, res, next) {
 
 
   LaserCutter.find({
@@ -153,7 +152,7 @@ router.get('/api/lasercutter/admin/logout', cors(corsOptions), function(req, res
 });
 
 //POST NEW LASERCUTTER USER IN QUEUE
-router.post('/api/lasercutter/admin', function(req, res, next) {
+router.post('/api/lasercutter/admin', cors(corsOptions), function(req, res, next) {
   var lasercutter = new LaserCutter();
   if (req.body.location == "murray") {
     lasercutter.location = "Murray";
@@ -182,7 +181,7 @@ router.post('/api/lasercutter/admin', function(req, res, next) {
 
 
     //DELETE USER FROM QUEUE
-    router.delete('/api/lasercutter/admin/:_id', function(req, res, next) {
+    router.delete('/api/lasercutter/admin/:_id', cors(corsOptions), function(req, res, next) {
 
       LaserCutter.find({ _id: req.params._id}, function(error, lasercutter) {
           if (error) {
@@ -227,7 +226,7 @@ router.post('/api/lasercutter/admin', function(req, res, next) {
       });
     });
 
-    router.put('/api/lasercutter/admin/:_id', function(req, res, next) {
+    router.put('/api/lasercutter/admin/:_id', cors(corsOptions), function(req, res, next) {
 
       LaserCutter.findById(req.params._id)
         .exec(function(error, lasercutter) {
@@ -262,7 +261,7 @@ router.post('/api/lasercutter/admin', function(req, res, next) {
 
 
 
-    router.put('/api/lasercutter/admin/remove/:_id', function(req, res, next) {
+    router.put('/api/lasercutter/admin/remove/:_id', cors(corsOptions), function(req, res, next) {
 
       LaserCutter.findById(req.params._id)
         .exec(function(error, lasercutter) {
