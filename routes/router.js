@@ -7,11 +7,23 @@ var cors = require('cors');
 var app = express();
 
 var corsOptions = {
-  credentials: true
+  credentials: true,
+   origin: 'http://localhost:4200'
 };
 
+function loginRequired (req, res, next) {
+  if (!req.session.adminId){
+    var err = new Error('Not Authorized');
+    err.status = 400;
+    return res.status(err ? 500 : 200).send(err ? err : req.session);
+   }
+  else {next();}
+}
+
+
 //GET Lasercutter QUEUE Entries
-router.get('/api/lasercutter/admin', cors(corsOptions), function(req, res, next) {
+router.get('/api/lasercutter/admin',  loginRequired, function(req, res, next) {
+if(req.session){
   LaserCutter.find({live: false}, {
     name: 1,
     live: 1,
@@ -35,6 +47,11 @@ router.get('/api/lasercutter/admin', cors(corsOptions), function(req, res, next)
     location: -1,
     create_date: 1
   });
+}else{
+  var err = new Error('Not Authorized');
+  err.status = 400;
+  return next(err);
+}
 });
 
 
@@ -64,8 +81,11 @@ router.get('/api/lasercutter/:location', function(req, res, next) {
 });
 
 
-router.get('/api/lasercutter/admin/:location',  cors(corsOptions), function(req, res, next) {
 
+router.get('/api/lasercutter/admin/:location',  loginRequired, function(req, res, next) {
+
+  if(req.session){
+    console.log(req.session);
 
   LaserCutter.find({
     location: req.params.location, live: true
@@ -84,7 +104,11 @@ router.get('/api/lasercutter/admin/:location',  cors(corsOptions), function(req,
     in_queue: -1,
     create_date: 1
   });
-
+}else{
+  var err = new Error('Not Authorized');
+  err.status = 400;
+  return next(err);
+}
 
 
 
@@ -138,7 +162,7 @@ router.post('/api/lasercutter', cors(corsOptions), function(req, res, next) {
 
 
 // GET for logout logout
-router.get('/api/lasercutter/admin/logout', cors(corsOptions), function(req, res, next) {
+router.get('/api/lasercutter/admin/logout',  loginRequired, function(req, res, next) {
   if (req.session) {
     // delete session object
     req.session.destroy(function(err) {
@@ -152,7 +176,7 @@ router.get('/api/lasercutter/admin/logout', cors(corsOptions), function(req, res
 });
 
 //POST NEW LASERCUTTER USER IN QUEUE
-router.post('/api/lasercutter/admin', cors(corsOptions), function(req, res, next) {
+router.post('/api/lasercutter/admin',  loginRequired, function(req, res, next) {
   var lasercutter = new LaserCutter();
   if (req.body.location == "murray") {
     lasercutter.location = "Murray";
@@ -181,7 +205,7 @@ router.post('/api/lasercutter/admin', cors(corsOptions), function(req, res, next
 
 
     //DELETE USER FROM QUEUE
-    router.delete('/api/lasercutter/admin/:_id', cors(corsOptions), function(req, res, next) {
+    router.delete('/api/lasercutter/admin/:_id', loginRequired, function(req, res, next) {
 
       LaserCutter.find({ _id: req.params._id}, function(error, lasercutter) {
           if (error) {
@@ -210,7 +234,7 @@ router.post('/api/lasercutter/admin', cors(corsOptions), function(req, res, next
       });
     });
 
-    router.delete('/api/lasercutter/admin', cors(corsOptions), function(req, res, next) {
+    router.delete('/api/lasercutter/admin', loginRequired, function(req, res, next) {
 
       LaserCutter.remove(function(err) {
         if (err) {
@@ -226,7 +250,7 @@ router.post('/api/lasercutter/admin', cors(corsOptions), function(req, res, next
       });
     });
 
-    router.put('/api/lasercutter/admin/:_id', cors(corsOptions), function(req, res, next) {
+    router.put('/api/lasercutter/admin/:_id',  loginRequired, function(req, res, next) {
 
       LaserCutter.findById(req.params._id)
         .exec(function(error, lasercutter) {
@@ -261,7 +285,7 @@ router.post('/api/lasercutter/admin', cors(corsOptions), function(req, res, next
 
 
 
-    router.put('/api/lasercutter/admin/remove/:_id', cors(corsOptions), function(req, res, next) {
+    router.put('/api/lasercutter/admin/remove/:_id',  loginRequired, function(req, res, next) {
 
       LaserCutter.findById(req.params._id)
         .exec(function(error, lasercutter) {
