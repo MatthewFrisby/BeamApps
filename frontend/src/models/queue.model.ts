@@ -9,4 +9,6 @@ export class Queue {
   name: string;
   in_queue: boolean;
   timeLeft: string = 'null';
+  remove_date: string;
+  live: boolean;
     }

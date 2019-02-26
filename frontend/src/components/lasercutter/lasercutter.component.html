@@ -55,7 +55,7 @@
 						</div>
 						<ng-template #elseBlockHan>
           <div class="card" [ngStyle]="{'background-color': !queue.in_queue? '#DDDDDE' : '#7CAFD4'}" *ngFor="let queue of hanesQueue; let i = index">
-						<h2 class="card-header text-white" [ngStyle]="{'background-color': !queue.in_queue? '#58595b' : '#1D3E55'}">
+						<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queue.in_queue? '#58595b' : '#1D3E55'}">
 							Patron: {{i+1}}
 						</h2>
 						<div class="card-body">

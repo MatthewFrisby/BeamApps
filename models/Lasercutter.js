@@ -14,6 +14,10 @@ var LaserCutterSchema = new mongoose.Schema({
       type: Boolean,
       default: false
     },
+    live:{
+      type: Boolean,
+      default: true
+    },
     create_date: {
         type: Date,
         default: Date.now
@@ -21,6 +25,10 @@ var LaserCutterSchema = new mongoose.Schema({
     timeLeft: {
       type: String,
       default: ''
+    },
+    remove_date: {
+      type: Date,
+      default: Date.now
     }
 });
 

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Admin = require('../models/Admin');
 var LaserCutter = require('../models/Lasercutter');
+var mongoose = require('mongoose');
 var cors = require('cors');
 var app = express();
 
@@ -11,11 +12,14 @@ var corsOptions = {
 };
 
 //GET Lasercutter QUEUE Entries
-router.get('/api/lasercutter', function(req, res, next) {
-  LaserCutter.find({}, {
-    create_date: 1,
+router.get('/api/lasercutter/admin', function(req, res, next) {
+  LaserCutter.find({live: false}, {
+    name: 1,
+    live: 1,
     in_queue: 1,
-    location: 1
+    location: 1,
+    create_date: 1,
+    remove_date: 1
   }, function(err, lasercutter) {
     if (err) {
       res.json({
@@ -23,12 +27,13 @@ router.get('/api/lasercutter', function(req, res, next) {
         message: err,
       });
     }
-    res.json({
-      status: "success",
-      data: lasercutter
-    });
-  }).sort({
-    in_queue: -1,
+    res.xls('data.xlsx', lasercutter);
+    // res.json({
+    //   status: "success",
+    //   data: lasercutter
+    // });
+  }).lean().sort({
+    location: -1,
     create_date: 1
   });
 });
@@ -36,9 +41,7 @@ router.get('/api/lasercutter', function(req, res, next) {
 
 router.get('/api/lasercutter/:location', function(req, res, next) {
 
-  LaserCutter.find({
-    location: req.params.location
-  }, {
+  LaserCutter.find({location: req.params.location, live: true }, {
     create_date: 1,
     in_queue: 1,
     location: 1,
@@ -66,7 +69,7 @@ router.get('/api/lasercutter/admin/:location', function(req, res, next) {
 
 
   LaserCutter.find({
-    location: req.params.location
+    location: req.params.location, live: true
   }, function(err, lasercutter) {
     if (err) {
       res.json({
@@ -87,6 +90,9 @@ router.get('/api/lasercutter/admin/:location', function(req, res, next) {
 
 
 });
+
+
+
 
 //POST TO LOGIN TO ADMIN CONSOLE
 router.post('/api/lasercutter', cors(corsOptions), function(req, res, next) {
@@ -172,81 +178,121 @@ router.post('/api/lasercutter/admin', function(req, res, next) {
 
 });
 
-//DELETE USER FROM QUEUE
-router.delete('/api/lasercutter/admin/:_id', function(req, res, next) {
-
-  LaserCutter.findById(req.params._id)
-    .exec(function(error, lasercutter) {
-      if (error) {
-        return next(error);
-      } else {
 
 
-        var temp_id = req.params._id;
-        //		var finish = Date.now;
-        //	var start = lasercutter.create_date;
 
-        LaserCutter.findByIdAndDelete(temp_id, function(err) {
-          if (err) {
-            res.json({
-              message: 'Error!'
-            });
+    //DELETE USER FROM QUEUE
+    router.delete('/api/lasercutter/admin/:_id', function(req, res, next) {
+
+      LaserCutter.find({ _id: req.params._id}, function(error, lasercutter) {
+          if (error) {
+            return next(error);
           } else {
-            res.json({
-              message: "User " + req.params._id + " removed from queue!"
+
+          var temp_id = req.params._id;
+
+          //		var finish = Date.now;
+          //	var start = lasercutter.create_date;
+        let swap = new Data(lasercutter);
+        swap.save();
+
+          LaserCutter.findByIdAndDelete(temp_id, function(err) {
+            if (err) {
+              res.json({
+                message: 'Error!'
+              });
+            } else {
+              res.json({
+                message: "User " + req.params._id + " removed from queue!"
+              });
+            }
+          });
+        }
+      });
+    });
+
+    router.delete('/api/lasercutter/admin', cors(corsOptions), function(req, res, next) {
+
+      LaserCutter.remove(function(err) {
+        if (err) {
+          res.json({
+            message: 'Error!'
+          });
+        } else {
+          res.json({
+            message: "All users removed from queue!"
+          });
+        }
+
+      });
+    });
+
+    router.put('/api/lasercutter/admin/:_id', function(req, res, next) {
+
+      LaserCutter.findById(req.params._id)
+        .exec(function(error, lasercutter) {
+          if (error) {
+            return next(error);
+          } else {
+
+
+            var temp_id = req.params._id;
+            //		var finish = Date.now;
+            //	var start = lasercutter.create_date;
+
+            LaserCutter.findByIdAndUpdate(temp_id, {
+              in_queue: !lasercutter.in_queue,
+              timeLeft: req.body.timeLeft
+            }, function(err, newbool) {
+              if (err) {
+                res.json({
+                  message: 'Error!'
+                });
+              } else {
+                res.json({
+                  message: "Time left: " + req.body.timeLeft
+                });
+              }
             });
           }
         });
-      }
     });
-});
-
-router.delete('/api/lasercutter/admin', cors(corsOptions), function(req, res, next) {
-
-  LaserCutter.remove(function(err) {
-    if (err) {
-      res.json({
-        message: 'Error!'
-      });
-    } else {
-      res.json({
-        message: "All users removed from queue!"
-      });
-    }
-
-  });
-});
-
-router.put('/api/lasercutter/admin/:_id', function(req, res, next) {
-
-  LaserCutter.findById(req.params._id)
-    .exec(function(error, lasercutter) {
-      if (error) {
-        return next(error);
-      } else {
 
 
-        var temp_id = req.params._id;
-        //		var finish = Date.now;
-        //	var start = lasercutter.create_date;
 
-        LaserCutter.findByIdAndUpdate(temp_id, {in_queue: !lasercutter.in_queue, timeLeft: req.body.timeLeft}, function(err, newbool) {
-          if (err) {
-            res.json({
-              message: 'Error!'
-            });
+
+
+    router.put('/api/lasercutter/admin/remove/:_id', function(req, res, next) {
+
+      LaserCutter.findById(req.params._id)
+        .exec(function(error, lasercutter) {
+          if (error) {
+            return next(error);
           } else {
-            res.json({
-              message: "Time left: " + req.body.timeLeft
+
+
+            var temp_id = req.params._id;
+            //		var finish = Date.now;
+            //	var start = lasercutter.create_date;
+
+            LaserCutter.findByIdAndUpdate(temp_id, {
+              live: false,
+              remove_date: req.body.remove_date
+            }, function(err, newbool) {
+              if (err) {
+                res.json({
+                  message: 'Error!'
+                });
+              } else {
+                res.json({
+                  message: "User " + temp_id +" Removed!"
+                });
+              }
             });
           }
         });
-      }
     });
-});
 
 
 
-
-
-module.exports = router;
+    module.exports = router;

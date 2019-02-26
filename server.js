@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 const cookieParser = require('cookie-parser');
 var MongoStore = require('connect-mongo')(session);
+var json2xls = require('json2xls');
 var cors = require('cors');
 
 var db = mongoose.connection;
@@ -18,6 +19,8 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
   // we're connected!
 });
+
+app.use(json2xls.middleware);
 
 //use sessions for tracking logins
 app.use(session({

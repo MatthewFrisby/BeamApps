@@ -49,6 +49,10 @@ export class Admin implements OnInit {
   timeLeft: number = 60;
   interval;
 
+  data: Queue[]=[];
+
+
+
 
 
 
@@ -114,7 +118,10 @@ export class Admin implements OnInit {
    //var value = target.nodeValue;
     var _id = queue._id;
     console.log(_id);
-    this.lasercutter.removeUserFromQueueAdmin(_id).subscribe(response => { console.log(response), this.ngOnInit() })
+
+    this.lasercutter.toggleLive(_id, Date.now().toString()).subscribe(response => { console.log(response), this.ngOnInit() })
+
+    //this.lasercutter.removeUserFromQueueAdmin(_id).subscribe(response => { console.log(response), this.ngOnInit() })
 
     return true;
   }
@@ -152,7 +159,11 @@ export class Admin implements OnInit {
     }
 
 
+    getData(){
 
+      this.lasercutter.getData().subscribe(res=>{this.data = res.data});
+
+    }
 
 
 

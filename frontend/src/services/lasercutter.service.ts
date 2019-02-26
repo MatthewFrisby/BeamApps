@@ -14,7 +14,7 @@ import { HttpHeaders } from '@angular/common/http';
 export class LaserCutterService  {
 
 private _url: string = "https://beam-lasercutter.herokuapp.com/api/lasercutter"
-//private _url: string = "https://localhost:3000/api/lasercutter"
+//private _url: string = "http://localhost:3000/api/lasercutter"
 
   constructor(private http: HttpClient) { }
 
@@ -57,6 +57,17 @@ private _url: string = "https://beam-lasercutter.herokuapp.com/api/lasercutter"
  toggleOnCutter(_id: string, time: string): Observable<Response>{
    return this.http.put<Response>(this._url+'/admin/'+_id, {timeLeft: time});
  }
+
+ toggleLive(_id: string, time: string): Observable<Response>{
+   return this.http.put<Response>(this._url+'/admin/remove/'+_id, {remove_date: time});
+ }
+
+ getData(): Observable<Response>{
+   const headers = new HttpHeaders({'Content-Type': 'Content-Type: application/xls'});
+   return this.http.get<Response>(this._url+"/admin");
+ }
+
+
 
 
 

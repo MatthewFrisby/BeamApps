@@ -20,6 +20,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "json2xls": "^0.1.2",
     "mongoose": "^5.4.11"
   },
   "devDependencies": {
