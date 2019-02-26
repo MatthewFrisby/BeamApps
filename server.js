@@ -34,7 +34,7 @@ app.use(session({
 
 app.use(json2xls.middleware);
 
-//app.use(express.static(__dirname + '/frontend/dist/lasercutterqueue'));
+app.use(express.static(__dirname + '/frontend/dist/lasercutterqueue'));
 
 // app.use('/', function(req, res) {
 //   res.sendFile(path.join(__dirname, '/frontend/dist/lasercutterqueue/index.html'), function(err) {
@@ -47,20 +47,16 @@ app.use(json2xls.middleware);
 // parse incoming requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors({credentials: true,  origin: 'http://localhost:4200'}));
+app.use(cors({credentials: true}));
 
 // serve static files from template
-app.use(express.static(__dirname + '/template'));
+//app.use(express.static(__dirname + '/template'));
 
 // include routes
 var routes = require('./routes/router');
 app.use('/', routes);
 
-app.get('/', function(req, res, next) {
-  var sessData = req.session;
 
-  res.send(sessData.adminId);
-});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
