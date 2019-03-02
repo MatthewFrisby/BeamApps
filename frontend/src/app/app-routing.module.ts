@@ -12,7 +12,7 @@ import { AuthGuardService } from '@services/authguard.service';
 
 
 const routes: Routes = [
-  {path: '', redirectTo:'/lasercutter', pathMatch: 'full'},
+  {path: '', redirectTo:'lasercutter', pathMatch: 'full'},
   {path: 'lasercutter', component: Lasercutter},
   {path: 'login', component: Login},
   {path: 'admin', component: Admin, canActivate: [AuthGuardService] }

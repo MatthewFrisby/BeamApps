@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { OnInit } from '@angular/core';
+import { OnInit, OnDestroy } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { Queue } from '@models/queue.model';
 import { Response } from '@models/response.model';
 
@@ -21,6 +22,8 @@ import {LaserCutterService } from '@services/lasercutter.service';
 
 
 export class Lasercutter implements OnInit{
+
+  private sub: Subscription;
 
   constructor(
       private router: Router,
@@ -41,11 +44,19 @@ export class Lasercutter implements OnInit{
   murrayBool: Boolean;
   timeLeft: number = 10;
   interval;
+  stop: Boolean = false;
 
   ngOnInit() {
     //this.lasercutter.getQueue().subscribe(data=>{this.activeQueue=data.data});
+    console.log("still here");
     this.timeLeft = 5;
-    this.lasercutter.getQueueAtLocation("Hanes").subscribe(data=>{this.hanesQueue = data.data, this.newDate(this.hanesQueue), this.lasercutter.getQueueAtLocation("Murray").subscribe(data=>{this.murrayQueue = data.data, this.newDate(this.murrayQueue), this.startTimer(true)});});
+    this.sub = this.lasercutter.getQueueAtLocation("Hanes")
+    .subscribe(data=>{this.hanesQueue = data.data,
+      this.newDate(this.hanesQueue),
+      this.lasercutter.getQueueAtLocation("Murray")
+      .subscribe(data=>{this.murrayQueue = data.data,
+        this.newDate(this.murrayQueue),
+        this.startTimer(true)});});
 
 
 
@@ -68,8 +79,9 @@ export class Lasercutter implements OnInit{
       queue.create_date = hour.toString()+':'+ min.substr(-2)+':' + sec.substr(-2)+' '+time;
     }
   }
+
 startTimer(bool: Boolean) {
-  if(bool == true){
+  if(bool == true || this.stop == false){
     this.interval = setInterval(() => {
       if(this.timeLeft > 0) {
         this.timeLeft--;
@@ -82,7 +94,11 @@ startTimer(bool: Boolean) {
   }
   }
 
-
+ngOnDestroy(){
+  this.stop = true;
+  clearInterval(this.interval);
+  this.sub.unsubscribe();
+}
 
 
 

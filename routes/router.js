@@ -32,7 +32,7 @@ router.get('/api/lasercutter/admin/auth', loginRequired, function(req, res, next
     auth = "false";
   }
 
-  return res.json({status: err.status, data: auth});
+  return res.json({status: err.status, data: [auth]});
 
 }),
 

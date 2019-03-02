@@ -29,9 +29,17 @@ export class Login implements OnInit {
         private lasercutter: LaserCutterService,
         private authenticationService: AuthenticationService
     ) {
-        // redirect to home if already logged in
+
+        this.authenticationService.callCheckAuth().subscribe(data=>{
+          if(data.data[0] =="true"){
+            this.router.navigate(['/admin']);            
+          } })
+
 
     }
+
+
+
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
