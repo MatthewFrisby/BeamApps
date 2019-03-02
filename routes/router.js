@@ -15,13 +15,13 @@ function loginRequired (req, res, next) {
   if (!req.session.adminId){
     var err = new Error('Not Authorized');
     err.status = 401;
-    return res.status(err ? 401 : 200).send(err ? {status: err.status, data: "false"}: req.session);
+    return res.status(err ? 401 : 200).send(err ? {status: err.status, data: ["false"]}: req.session);
    }
 
   else {next();}
 }
 
-router.get('/api/lasercutter/admin/auth', loginRequired, function(req, res, next){
+router.get('/api/lasercutter/admin/auth', function(req, res, next){
   var auth = "false"
   var err = new Error('Not Authorized');
   if(req.session.adminId){

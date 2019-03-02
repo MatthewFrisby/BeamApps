@@ -3,6 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthenticationService } from '@services/authentication.service';
 import { first } from 'rxjs/operators';
+import 'rxjs/add/observable/of';
 import { map } from 'rxjs/operators';
 import { timer } from 'rxjs';
 
@@ -14,14 +15,17 @@ export class AuthGuardService implements CanActivate {
         private auth: AuthenticationService
     ) {}
     check: any;
-  canActivate(route: ActivatedRouteSnapshot){
 
-    this.auth.callCheckAuth().subscribe(data=>{this.check = data.data});
-    if ( this.check == "false")  {
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean>{
+
+   this.auth.callCheckAuth().subscribe(data=>{this.check = data.data });
+
+    if ( this.check == "false") {
       this.router.navigate(['/lasercutter']);
-      return false;
+      return Observable.of(false);
     }else if(this.check == "true"){
-    return true;
+    return Observable.of(true);
   }
+
   }
 }

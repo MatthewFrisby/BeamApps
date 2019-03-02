@@ -30,10 +30,10 @@ export class Login implements OnInit {
         private authenticationService: AuthenticationService
     ) {
 
-        this.authenticationService.callCheckAuth().subscribe(data=>{
-          if(data.data[0] =="true"){
-            this.router.navigate(['/admin']);            
-          } })
+         this.authenticationService.callCheckAuth().subscribe(data=>{
+           if(data.data[0] =="true"){
+             this.router.navigate(['/admin']);
+           } })
 
 
     }
@@ -42,6 +42,8 @@ export class Login implements OnInit {
 
 
     ngOnInit() {
+      this.submitted = false;
+      this.loading = false;
         this.loginForm = this.formBuilder.group({
             logusername: ['', Validators.required],
             logpassword: ['', [Validators.required, Validators.minLength(6)]]
@@ -62,11 +64,10 @@ export class Login implements OnInit {
 
         this.authenticationService.login(this.f.logusername.value, this.f.logpassword.value)
             .subscribe(
-                data => {
-
-                  this.router.navigate(['/admin']);
-                    //this.router.navigate([this.returnUrl]);
-                },
+                data => {this.authenticationService.callCheckAuth().subscribe(data=>{
+                  if(data.data[0] =="true"){
+                    this.router.navigate(['/admin']);
+                  } })},
                 error => {
                     this.error = error;
                     this.loading = false;
