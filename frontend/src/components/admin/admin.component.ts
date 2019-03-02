@@ -1,21 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
+import { timer } from 'rxjs';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Queue } from '@models/queue.model';
 import { Response } from '@models/response.model';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import { timer } from 'rxjs';
-
-
-
-
-
 
 import { LaserCutterService } from '@services/lasercutter.service';
 
@@ -73,6 +68,9 @@ export class Admin implements OnInit {
   }
 
    get f() { return this.lasercutterForm.controls; }
+
+
+   re: String = "7";
 
 
   newDate(queueArray: Queue[]){
@@ -160,15 +158,8 @@ export class Admin implements OnInit {
 
 
     getData(){
-
       this.lasercutter.getData().subscribe(res=>{this.data = res.data});
-
     }
-
-
-
-
-
 
 
 }

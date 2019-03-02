@@ -18,13 +18,13 @@
 						<ng-template #elseBlockMur>
 
 
-					<div class="card"  [ngStyle]="{'background-color': !queue.in_queue? '#DDDDDE' : '#7CAFD4'}" *ngFor="let queue of murrayQueue; let i = index">
+					<div class="card"  [ngStyle]="{'background-color': !queue.on_cutter? '#DDDDDE' : '#7CAFD4'}" *ngFor="let queue of murrayQueue; let i = index">
 
-							<h2 class="card-header text-center text-white"  [ngStyle]="{'background-color': !queue.in_queue? '#58595b' : '#1D3E55'}">
+							<h2 class="card-header text-center text-white"  [ngStyle]="{'background-color': !queue.on_cutter? '#58595b' : '#1D3E55'}">
 								Patron: {{i+1}}
 								</h2>
 						<div class="card-body">
-							<div *ngIf="!queue.in_queue; else elseBlock">
+							<div *ngIf="!queue.on_cutter; else elseBlock">
 								<h3 class="card-text text-center">
 									Check-In Time: {{queue.create_date}}
 								</h3>
@@ -54,13 +54,13 @@
 						</div>
 						</div>
 						<ng-template #elseBlockHan>
-          <div class="card" [ngStyle]="{'background-color': !queue.in_queue? '#DDDDDE' : '#7CAFD4'}" *ngFor="let queue of hanesQueue; let i = index">
-						<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queue.in_queue? '#58595b' : '#1D3E55'}">
+          <div class="card" [ngStyle]="{'background-color': !queue.on_cutter? '#DDDDDE' : '#7CAFD4'}" *ngFor="let queue of hanesQueue; let i = index">
+						<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queue.on_cutter? '#58595b' : '#1D3E55'}">
 							Patron: {{i+1}}
 						</h2>
 						<div class="card-body">
 
-							<div *ngIf="!queue.in_queue; else elseBlock">
+							<div *ngIf="!queue.on_cutter; else elseBlock">
 								<h3 class="card-text text-center">
 									Check-In Time: {{queue.create_date}}
 								</h3>

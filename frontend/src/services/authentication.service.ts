@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Response } from '@models/response.model';
 import { map } from 'rxjs/operators';
 
 import { User } from '@models/user.model';
@@ -14,9 +15,8 @@ export class AuthenticationService {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
-
-    //private _url: string = "https://localhost:3000/api/lasercutter"
-    private _url: string = "https://beam-lasercutter.herokuapp.com/api/lasercutter"
+//private _url: string = "http://localhost:3000/api/lasercutter"
+private _url: string = "https://beam-lasercutter.herokuapp.com/api/lasercutter"
 
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
@@ -27,6 +27,20 @@ export class AuthenticationService {
     login(logusername: string, logpassword: string) {
         return this.http.post<any>(this._url, { logusername, logpassword }, { observe: 'response' });
     }
+
+      callCheckAuth(): Observable<Response>{
+      return this.http.get<Response>(this._url+"/admin/auth", {withCredentials: true });
+
+      }
+      public adm: Observable<String>;
+
+      public isAuthenticated(): Observable<String>{
+        var check;
+        this.callCheckAuth().subscribe(data=>{check = data.data});
+          this.adm = check;
+          return check;
+      }
+
 
     logout() {
         // remove user from local storage to log user out

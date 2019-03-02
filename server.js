@@ -47,7 +47,7 @@ app.use(express.static(__dirname + '/frontend/dist/lasercutterqueue'));
 // parse incoming requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors({credentials: true}));
+app.use(cors({credentials: true, origin: 'http://localhost:4200'}));
 
 // serve static files from template
 //app.use(express.static(__dirname + '/template'));

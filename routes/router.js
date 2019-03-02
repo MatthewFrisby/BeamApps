@@ -14,23 +14,41 @@ var corsOptions = {
 function loginRequired (req, res, next) {
   if (!req.session.adminId){
     var err = new Error('Not Authorized');
-    err.status = 400;
-    return res.status(err ? 500 : 200).send(err ? err : req.session);
+    err.status = 401;
+    return res.status(err ? 401 : 200).send(err ? {status: err.status, data: "false"}: req.session);
    }
+
   else {next();}
 }
 
+router.get('/api/lasercutter/admin/auth', loginRequired, function(req, res, next){
+  var auth = "false"
+  var err = new Error('Not Authorized');
+  if(req.session.adminId){
+    err.status = 200;
+    auth = "true";
+  }else{
+    err.status = 401;
+    auth = "false";
+  }
+
+  return res.json({status: err.status, data: auth});
+
+}),
 
 //GET Lasercutter QUEUE Entries
 router.get('/api/lasercutter/admin',  loginRequired, function(req, res, next) {
 if(req.session){
-  LaserCutter.find({live: false}, {
+  LaserCutter.find({waiting: false}, {
     name: 1,
-    live: 1,
-    in_queue: 1,
+    waiting: 1,
+    on_cutter: 1,
     location: 1,
     create_date: 1,
-    remove_date: 1
+    remove_date: 1,
+    check_in_time: 1,
+    start_cut_time: 1,
+    finish_cut_time: 1
   }, function(err, lasercutter) {
     if (err) {
       res.json({
@@ -57,9 +75,9 @@ if(req.session){
 
 router.get('/api/lasercutter/:location', function(req, res, next) {
 
-  LaserCutter.find({location: req.params.location, live: true }, {
+  LaserCutter.find({location: req.params.location, waiting: true }, {
     create_date: 1,
-    in_queue: 1,
+    on_cutter: 1,
     location: 1,
     timeLeft: 1
   }, function(err, lasercutter) {
@@ -74,7 +92,7 @@ router.get('/api/lasercutter/:location', function(req, res, next) {
       data: lasercutter
     });
   }).sort({
-    in_queue: -1,
+    on_cutter: -1,
     create_date: 1
   });;
 
@@ -85,10 +103,10 @@ router.get('/api/lasercutter/:location', function(req, res, next) {
 router.get('/api/lasercutter/admin/:location',  loginRequired, function(req, res, next) {
 
   if(req.session){
-    console.log(req.session);
+
 
   LaserCutter.find({
-    location: req.params.location, live: true
+    location: req.params.location, waiting: true
   }, function(err, lasercutter) {
     if (err) {
       res.json({
@@ -101,7 +119,7 @@ router.get('/api/lasercutter/admin/:location',  loginRequired, function(req, res
       data: lasercutter
     });
   }).sort({
-    in_queue: -1,
+    on_cutter: -1,
     create_date: 1
   });
 }else{
@@ -137,7 +155,7 @@ router.post('/api/lasercutter', cors(corsOptions), function(req, res, next) {
         return next(error);
       } else {
         req.session.adminId = admin._id;
-        return res.redirect('');
+        return res.json({status: "success", data: admin._id});
       }
     });
 
@@ -262,9 +280,16 @@ router.post('/api/lasercutter/admin',  loginRequired, function(req, res, next) {
             var temp_id = req.params._id;
             //		var finish = Date.now;
             //	var start = lasercutter.create_date;
+            var _time = 0;
+            if(lasercutter.on_cutter){
+              _time = lasercutter.check_in_time;
+            }else{
+              _time = Date.now();
+            }
 
             LaserCutter.findByIdAndUpdate(temp_id, {
-              in_queue: !lasercutter.in_queue,
+              on_cutter: !lasercutter.on_cutter,
+              start_cut_time: _time,
               timeLeft: req.body.timeLeft
             }, function(err, newbool) {
               if (err) {
@@ -284,6 +309,38 @@ router.post('/api/lasercutter/admin',  loginRequired, function(req, res, next) {
 
 
 
+    router.put('/api/lasercutter/admin/check/:_id',  loginRequired, function(req, res, next) {
+
+      LaserCutter.findById(req.params._id)
+        .exec(function(error, lasercutter) {
+          if (error) {
+            return next(error);
+          } else {
+
+
+            var temp_id = req.params._id;
+            //		var finish = Date.now;
+            //	var start = lasercutter.create_date;
+
+
+            LaserCutter.findByIdAndUpdate(temp_id, {
+              staff_checks_complete: true
+            }, function(err, newbool) {
+              if (err) {
+                res.json({
+                  message: 'Error!'
+                });
+              } else {
+                res.json({
+                  message: "User "+temp_id+" is ready to cut!"
+                });
+              }
+            });
+          }
+        });
+    });
+
+
 
     router.put('/api/lasercutter/admin/remove/:_id',  loginRequired, function(req, res, next) {
 
@@ -299,7 +356,9 @@ router.post('/api/lasercutter/admin',  loginRequired, function(req, res, next) {
             //	var start = lasercutter.create_date;
 
             LaserCutter.findByIdAndUpdate(temp_id, {
-              live: false,
+              finish_cut_time: Date.now(),
+              waiting: false,
+              on_cutter: false,
               remove_date: req.body.remove_date
             }, function(err, newbool) {
               if (err) {

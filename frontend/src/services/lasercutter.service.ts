@@ -16,6 +16,7 @@ export class LaserCutterService  {
 private _url: string = "https://beam-lasercutter.herokuapp.com/api/lasercutter"
 //private _url: string = "http://localhost:3000/api/lasercutter"
 
+private isAuth: string;
   constructor(private http: HttpClient) { }
 
   getQueue(): Observable<Response>{
@@ -68,6 +69,9 @@ private _url: string = "https://beam-lasercutter.herokuapp.com/api/lasercutter"
  }
 
 
+ readyToCut(_id: String): Observable<Response>{
+   return this.http.put<Response>(this._url+'/admin/check/'+_id, {_id: _id}, {withCredentials: true });
+ }
 
 
 

@@ -7,8 +7,12 @@ export class Queue {
   _id: string;
   create_date: string;
   name: string;
-  in_queue: boolean;
+  on_cutter: boolean;
   timeLeft: string = 'null';
   remove_date: string;
-  live: boolean;
+  waiting: boolean;
+  check_in_time: Number;
+  start_cut_time:Number;
+  finish_cut_time: Number;
+  staff_checks_complete: Boolean;
     }

@@ -20,18 +20,18 @@
 						<ng-template #elseBlockMur>
 					<div cdkDropList #onMurray="cdkDropList" [cdkDropListData]="murrayQueue" [cdkDropListConnectedTo]="[waitMurray]" class="example-list" (cdkDropListDropped)="drop($event)">
 
-						<div class="card" [ngStyle]="{'background-color': !queueMurray.in_queue? '#DDDDDE' : '#7CAFD4'}" style="width: 85%" *ngFor="let queueMurray of murrayQueue " cdkDrag>
+						<div class="card" [ngStyle]="{'background-color': !queueMurray.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 85%" *ngFor="let queueMurray of murrayQueue " cdkDrag>
 							<div class="float-right">
 								<button type="button" (click)="removeFromQueue(queueMurray)" class="close" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
-							<h2 class="card-header text-center text-white"  [ngStyle]="{'background-color': !queueMurray.in_queue? '#58595b' : '#1D3E55'}">
+							<h2 class="card-header text-center text-white"  [ngStyle]="{'background-color': !queueMurray.on_cutter? '#58595b' : '#1D3E55'}">
 								{{queueMurray.name}}
 							</h2>
 							<div class="card-body">
 
-									<div *ngIf="!queueMurray.in_queue; else elseBlock">
+									<div *ngIf="!queueMurray.on_cutter; else elseBlock">
 									<div class="float-left">
 									<button type="button" (click)="queueUpOrDown(queueMurray)" class="btn btn-primary">
 										Start Lasercut
@@ -103,18 +103,18 @@
 						</div>
 						<ng-template #elseBlockHan>
 					<div cdkDropList #onhanes="cdkDropList" [cdkDropListData]="hanesQueue" [cdkDropListConnectedTo]="[waitHanes]" class="example-list" (cdkDropListDropped)="drop($event)">
-						<div class="card" [ngStyle]="{'background-color': !queueHanes.in_queue? '#DDDDDE' : '#7CAFD4'}" style="width: 85%" *ngFor="let queueHanes of hanesQueue " cdkDrag>
+						<div class="card" [ngStyle]="{'background-color': !queueHanes.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 85%" *ngFor="let queueHanes of hanesQueue " cdkDrag>
 							<div class="float-right">
 								<button type="button" (click)="removeFromQueue(queueHanes)" class="close" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
-							<h2 class="card-header text-center text-white"  [ngStyle]="{'background-color': !queueHanes.in_queue? '#58595b' : '#1D3E55'}">
+							<h2 class="card-header text-center text-white"  [ngStyle]="{'background-color': !queueHanes.on_cutter? '#58595b' : '#1D3E55'}">
 								{{queueHanes.name}}
 							</h2>
 							<div class="card-body">
 
-									<div *ngIf="!queueHanes.in_queue; else elseBlock">
+									<div *ngIf="!queueHanes.on_cutter; else elseBlock">
 									<div class="float-left">
 									<button type="button" (click)="queueUpOrDown(queueHanes)" class="btn btn-primary">
 										Start Lasercut

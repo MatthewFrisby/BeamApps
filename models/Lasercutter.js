@@ -2,25 +2,38 @@
 var mongoose = require('mongoose');
 // Setup schema
 var LaserCutterSchema = new mongoose.Schema({
+
+  name: {
+      type: String,
+      required: true
+  },
     location: {
         type: String,
         required: true
     },
-    name: {
-        type: String,
-        required: true
-    },
-    in_queue:{
+      on_cutter:{
       type: Boolean,
       default: false
     },
-    live:{
+    waiting:{
       type: Boolean,
       default: true
     },
     create_date: {
         type: Date,
         default: Date.now
+    },
+    check_in_time:{
+      type: Number,
+      default: Date.now()
+    },
+    start_cut_time:{
+      type: Number,
+      default: Date.now()
+    },
+    finish_cut_time:{
+      type: Number,
+      default: Date.now()
     },
     timeLeft: {
       type: String,
@@ -29,6 +42,10 @@ var LaserCutterSchema = new mongoose.Schema({
     remove_date: {
       type: Date,
       default: Date.now
+    },
+    staff_checks_complete:{
+      type: Boolean,
+      Default: true
     }
 });
 
