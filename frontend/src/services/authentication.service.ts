@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Response } from '@models/response.model';
 import { map } from 'rxjs/operators';
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+
 
 import { User } from '@models/user.model';
 
@@ -10,6 +12,7 @@ import { User } from '@models/user.model';
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
+    private router: Router;
 
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
@@ -32,13 +35,11 @@ private _url: string = "https://beam-lasercutter.herokuapp.com/api/lasercutter"
       return this.http.get<Response>(this._url+"/admin/auth", {withCredentials: true });
 
       }
-      public adm: Observable<String>;
+      public adm: String;
 
-      public isAuthenticated(): Observable<String>{
-        var check;
-        this.callCheckAuth().subscribe(data=>{check = data.data});
-          this.adm = check;
-          return check;
+      public isAuthenticated(): any{
+        this.callCheckAuth().subscribe(data=>{this.adm = data.data[0] });
+        return;
       }
 
 

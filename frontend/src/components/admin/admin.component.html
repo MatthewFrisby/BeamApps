@@ -1,150 +1,328 @@
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="row row-center">
-				<div class="col-md-4">
-					<div class="d-flex justify-content-center">
-						<h1 class="text-center">
-							Murray
-						</h1>
-
-					</div>
-					<br>
-					<div *ngIf="murrayQueue.length == 0; else elseBlockMur">
-						<div class="card"  [ngStyle]="{'background-color': '#DDDDDE'}">
-								<h2 class="card-header text-center text-white"  [ngStyle]="{'background-color': '#58595b'}">
-									Queue Is Empty
-									</h2>
+<div *ngIf="view == false; else inspaceview">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row row-center">
+					<div class="col-md-4">
+						<div class="d-flex justify-content-center">
+							<h1 class="text-center">
+								Murray
+							</h1>
 						</div>
+						<br>
+						<div *ngIf="murrayQueue.length == 0; else elseBlockMur">
+							<div class="card" [ngStyle]="{'background-color': '#DDDDDE'}">
+								<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': '#58595b'}">
+									Queue Is Empty
+								</h2>
+							</div>
 						</div>
 						<ng-template #elseBlockMur>
-					<div cdkDropList #onMurray="cdkDropList" [cdkDropListData]="murrayQueue" [cdkDropListConnectedTo]="[waitMurray]" class="example-list" (cdkDropListDropped)="drop($event)">
-
-						<div class="card" [ngStyle]="{'background-color': !queueMurray.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 85%" *ngFor="let queueMurray of murrayQueue " cdkDrag>
-							<div class="float-right">
-								<button type="button" (click)="removeFromQueue(queueMurray)" class="close" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<h2 class="card-header text-center text-white"  [ngStyle]="{'background-color': !queueMurray.on_cutter? '#58595b' : '#1D3E55'}">
-								{{queueMurray.name}}
-							</h2>
-							<div class="card-body">
-
-									<div *ngIf="!queueMurray.on_cutter; else elseBlock">
-									<div class="float-left">
-									<button type="button" (click)="queueUpOrDown(queueMurray)" class="btn btn-primary">
-										Start Lasercut
-									</button>
-									</div>
-									<h3 class="card-text text-center">
-										Check-In Time: {{queueMurray.create_date}}
-									</h3>
-									</div>
-									<ng-template #elseBlock>
-										<div class="float-left">
-										<button type="button" (click)="queueUpOrDown(queueMurray)" class="btn btn-light">
-											Cancel Lasercut
+							<div cdkDropList #onMurray="cdkDropList" [cdkDropListData]="murrayQueue" [cdkDropListConnectedTo]="[waitMurray]" class="example-list" (cdkDropListDropped)="drop($event)">
+								<div class="card" [ngStyle]="{'background-color': !queueMurray.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 85%" *ngFor="let queueMurray of murrayQueue " cdkDrag>
+									<div class="float-right">
+										<button type="button" (click)="removeFromQueue(queueMurray)" class="close" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
 										</button>
-										</div>
-										<h3 class="card-text text-center">User Has Until: {{queueMurray.timeLeft}}</h3>
-									</ng-template>
-
-							</div>
-						</div>
-					</div>
-					</ng-template>
-				</div>
-				<div class="col-md-4">
-					<div class="container">
-						<div class="col-md-10">
-							<div >
-							<form [formGroup]="lasercutterForm" layout-align="center center" class="card text-center justify-content-center" (ngSubmit)="onSubmit()">
-								<h2 class="card-header  text-center">
-									Add Patron To Queue
+									</div>
+									<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queueMurray.on_cutter? '#58595b' : '#1D3E55'}">
+										{{queueMurray.name}}
 									</h2>
-								<div class="form-group card-body text-center justify-content-center">
+									<div class="card-body">
 
-									<input type="text" formControlName="name" placeholder="Name"  class="form-control form-control-lg" />
-									<div *ngIf="f.name.errors" class="invalid-feedback">
-										<div *ngIf="f.name.errors.required">Name is required</div>
+										<div *ngIf="!queueMurray.on_cutter; else elseBlock">
+											<div class="float-left">
+												<button type="button" (click)="openSheet(queueMurray)" class="btn btn-primary">
+													Update Status
+												</button>
+											</div>
+											<h3 class="card-text text-center">
+												Check-In Time: {{queueMurray.create_date}}
+											</h3>
+										</div>
+										<ng-template #elseBlock>
+											<div class="float-left">
+												<button type="button" (click)="openSheet(queueMurray)" class="btn btn-light">
+													Update Status
+												</button>
+											</div>
+											<h3 class="card-text text-center">User Has Until: {{queueMurray.timeLeft}}</h3>
+										</ng-template>
+
 									</div>
 								</div>
-								<div class="form-group card-body text-center justify-content-center">
-									<select class="form-control form-control-lg"  formControlName="location">
-										<option value="" selected disabled>Location</option>
-  									<option>Murray</option>
-										<option>Hanes Art Center</option>
-									</select>
-								</div>
-								<div class="form-group">
-									<button  class="btn btn-primary">Add Patron</button>
-								</div>
-							</form>
 							</div>
-							</div>
-							</div>
-
-				</div>
-
-				<div class="col-md-4">
-					<div class="d-flex justify-content-center">
-						<h1 class="text-center">
-							Hanes Art Center
-						</h1>
+						</ng-template>
 					</div>
-					<br>
-					<div *ngIf="hanesQueue.length == 0; else elseBlockHan">
-						<div class="card"  [ngStyle]="{'background-color': '#DDDDDE'}">
-								<h2 class="card-header text-center text-white"  [ngStyle]="{'background-color': '#58595b'}">
-									Queue Is Empty
-									</h2>
+					<div class="col-md-4">
+						<div class="container">
+							<div class="col-md-12">
+								<div>
+									<form [formGroup]="lasercutterForm" layout-align="center center" class="card text-center justify-content-center" (ngSubmit)="onSubmit()">
+										<h2 class="card-header  text-center">
+											Add Patron To Queue
+										</h2>
+										<div class="form-group card-body text-center justify-content-center">
+
+											<input type="text" formControlName="name" placeholder="Name" class="form-control form-control-lg" />
+											<div *ngIf="f.name.errors" class="invalid-feedback">
+												<div *ngIf="f.name.errors.required">Name is required</div>
+											</div>
+										</div>
+										<div class="form-group card-body text-center justify-content-center">
+											<select class="form-control form-control-lg" formControlName="location">
+												<option value="" selected disabled>Location</option>
+												<option>Murray</option>
+												<option>Hanes Art Center</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<button class="btn btn-primary">Add Patron</button>
+										</div>
+									</form>
+
+								</div>
+
+							</div>
+
 						</div>
+						<br>
+						<br>
+						<div *ngIf="update == true">
+							<div class="container">
+								<div class="col-md-12">
+									<div class="card text-center justify-content-center">
+										<h1 class="card-header  text-center">Patron: {{queueToUpdate.name}}</h1>
+										<h1 class=" text-center">Location: {{queueToUpdate.location}}</h1>
+
+										<div *ngIf="queueToUpdate.checks_complete == false">
+											<h4 class="text-center">Has Patron's Design Been Verified?</h4>
+											<button type="button" (click)="verify(queueToUpdate._id)" class="btn btn-primary">
+												Verify
+											</button>
+										</div>
+										<div *ngIf="queueToUpdate.checks_complete == true">
+											<div *ngIf="queueToUpdate.on_cutter == false">
+												<h4 class="text-center">Patron's Design Been Verified</h4>
+												<h4 class="text-center">Patron Is Ready To Cut</h4>
+												<button type="button" (click)="queueUpOrDown(queueToUpdate)" class="btn btn-large btn-primary">
+													Start Cut
+												</button>
+											</div>
+											<div *ngIf="queueToUpdate.on_cutter == true">
+												<h4 class="text-center">Patron Is Using Cutter</h4>
+												<div class="d-flex justify-content-center">
+													<div style="width: 50%">
+														<div class="d-inline-block float-left">
+															<button type="button" (click)="queueUpOrDown(queueToUpdate)" class="btn btn-large btn-primary">
+																Put Back In Queue
+															</button>
+														</div>
+
+														<div class="d-inline-block float-right">
+															<button type="button" (click)="removeFromQueue(queueToUpdate)" class="btn btn-large btn-primary">
+																Complete Cut
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="d-flex justify-content-center">
+							<h1 class="text-center">
+								Hanes Art Center
+							</h1>
+						</div>
+						<br>
+						<div *ngIf="hanesQueue.length == 0; else elseBlockHan">
+							<div class="card" [ngStyle]="{'background-color': '#DDDDDE'}">
+								<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': '#58595b'}">
+									Queue Is Empty
+								</h2>
+							</div>
 						</div>
 						<ng-template #elseBlockHan>
-					<div cdkDropList #onhanes="cdkDropList" [cdkDropListData]="hanesQueue" [cdkDropListConnectedTo]="[waitHanes]" class="example-list" (cdkDropListDropped)="drop($event)">
-						<div class="card" [ngStyle]="{'background-color': !queueHanes.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 85%" *ngFor="let queueHanes of hanesQueue " cdkDrag>
-							<div class="float-right">
-								<button type="button" (click)="removeFromQueue(queueHanes)" class="close" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<h2 class="card-header text-center text-white"  [ngStyle]="{'background-color': !queueHanes.on_cutter? '#58595b' : '#1D3E55'}">
-								{{queueHanes.name}}
-							</h2>
-							<div class="card-body">
-
-									<div *ngIf="!queueHanes.on_cutter; else elseBlock">
-									<div class="float-left">
-									<button type="button" (click)="queueUpOrDown(queueHanes)" class="btn btn-primary">
-										Start Lasercut
-									</button>
-									</div>
-									<h3 class="card-text text-center">
-										Check-In Time: {{queueHanes.create_date}}
-									</h3>
-									</div>
-									<ng-template #elseBlock>
-										<div class="float-left">
-										<button type="button" (click)="queueUpOrDown(queueHanes)" class="btn btn-light">
-											Cancel Lasercut
+							<div cdkDropList #onhanes="cdkDropList" [cdkDropListData]="hanesQueue" [cdkDropListConnectedTo]="[waitHanes]" class="example-list" (cdkDropListDropped)="drop($event)">
+								<div class="card" [ngStyle]="{'background-color': !queueHanes.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 85%" *ngFor="let queueHanes of hanesQueue " cdkDrag>
+									<div class="float-right">
+										<button type="button" (click)="removeFromQueue(queueHanes)" class="close" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
 										</button>
-										</div>
-										<h3 class="card-text text-center">User Has Until: {{queueHanes.timeLeft}}</h3>
-									</ng-template>
+									</div>
+									<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queueHanes.on_cutter? '#58595b' : '#1D3E55'}">
+										{{queueHanes.name}}
+									</h2>
+									<div class="card-body">
 
+										<div *ngIf="!queueHanes.on_cutter; else elseBlock">
+											<div class="float-left">
+												<button type="button" (click)="openSheet(queueHanes)" class="btn btn-primary">
+													Update Status
+												</button>
+											</div>
+											<h3 class="card-text text-center">
+												Check-In Time: {{queueHanes.create_date}}
+											</h3>
+										</div>
+										<ng-template #elseBlock>
+											<div class="float-left">
+												<button type="button" (click)="openSheet(queueHanes)" class="btn btn-light">
+													Update Status
+												</button>
+											</div>
+											<h3 class="card-text text-center">User Has Until: {{queueHanes.timeLeft}}</h3>
+										</ng-template>
+
+									</div>
+								</div>
 							</div>
-						</div>
+						</ng-template>
 					</div>
-					</ng-template>
 				</div>
 			</div>
 		</div>
+		<br>
+		<br>
+		<br>
 	</div>
-	<br>
-	<br>
-	<br>
 </div>
-<a href="https://beam-lasercutter.herokuapp.com/api/lasercutter/admin" target="_blank">
-<button type="button" class="btn btn-primary btn-lg">Download Data</button>
-</a>
+<ng-template #inspaceview>
+	<div *ngIf="viewLocation == 'Murray'; else Hanes">
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row row-center">
+						<div class="col-md-3">
+						</div>
+						<div class="col-md-6">
+							<div class="d-flex justify-content-center">
+								<h1 class="text-center">
+									Murray
+								</h1>
+
+							</div>
+							<br>
+							<div *ngIf="murrayQueue.length == 0; else elseBlockMur">
+								<div class="card" [ngStyle]="{'background-color': '#DDDDDE'}">
+									<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': '#58595b'}">
+										Queue Is Empty
+									</h2>
+								</div>
+							</div>
+							<ng-template #elseBlockMur>
+								<div cdkDropList #onMurray="cdkDropList" [cdkDropListData]="murrayQueue" [cdkDropListConnectedTo]="[waitMurray]" class="example-list" (cdkDropListDropped)="drop($event)">
+									<div class="card" [ngStyle]="{'background-color': !queueMurray.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 85%" *ngFor="let queueMurray of murrayQueue " cdkDrag>
+										<div class="float-right">
+										
+										</div>
+										<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queueMurray.on_cutter? '#58595b' : '#1D3E55'}">
+											{{queueMurray.name}}
+										</h2>
+										<div class="card-body">
+
+											<div *ngIf="!queueMurray.on_cutter; else elseBlock">
+
+												<h3 class="card-text text-center">
+													Check-In Time: {{queueMurray.create_date}}
+												</h3>
+											</div>
+											<ng-template #elseBlock>
+
+												<h3 class="card-text text-center">User Has Until: {{queueMurray.timeLeft}}</h3>
+											</ng-template>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<br>
+			<br>
+		</div>
+	</div>
+	<ng-template #Hanes>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row row-center">
+						<div class="col-md-3">
+						</div>
+						<div class="col-md-6">
+							<div class="d-flex justify-content-center">
+								<h1 class="text-center">
+									Hanes Art Center
+								</h1>
+							</div>
+							<br>
+							<div *ngIf="hanesQueue.length == 0; else elseBlockHan">
+								<div class="card" [ngStyle]="{'background-color': '#DDDDDE'}">
+									<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': '#58595b'}">
+										Queue Is Empty
+									</h2>
+								</div>
+							</div>
+							<ng-template #elseBlockHan>
+								<div cdkDropList #onhanes="cdkDropList" [cdkDropListData]="hanesQueue" [cdkDropListConnectedTo]="[waitHanes]" class="example-list" (cdkDropListDropped)="drop($event)">
+									<div class="card" [ngStyle]="{'background-color': !queueHanes.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 85%" *ngFor="let queueHanes of hanesQueue " cdkDrag>
+										<div class="float-right">
+
+										</div>
+										<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queueHanes.on_cutter? '#58595b' : '#1D3E55'}">
+											{{queueHanes.name}}
+										</h2>
+										<div class="card-body">
+
+											<div *ngIf="!queueHanes.on_cutter; else elseBlock">
+												<div class="float-left">
+
+												</div>
+												<h3 class="card-text text-center">
+													Check-In Time: {{queueHanes.create_date}}
+												</h3>
+											</div>
+											<ng-template #elseBlock>
+												<div class="float-left">
+
+												</div>
+												<h3 class="card-text text-center">User Has Until: {{queueHanes.timeLeft}}</h3>
+											</ng-template>
+
+										</div>
+									</div>
+								</div>
+							</ng-template>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</ng-template>
+
+</ng-template>
+<div class="fixed-bottom">
+	<div class="float-left">
+		<a href="https://beam-lasercutter.herokuapp.com/api/lasercutter/admin" target="_blank">
+			<button type="button" class="btn btn-primary btn-lg">Download Data</button>
+		</a>
+	</div>
+	<div class="float-right">
+		<button type="button" (click)="inSpaceView('a')" class="btn btn-primary btn-lg">Admin View</button>
+		<button type="button" (click)="inSpaceView('m')" class="btn btn-primary btn-lg">Murray View</button>
+		<button type="button" (click)="inSpaceView('h')" class="btn btn-primary btn-lg">Hanes View</button>
+	</div>
+</div>
+<br>

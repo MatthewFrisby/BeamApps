@@ -7,13 +7,14 @@ import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
 
 import { Admin } from '@components/admin/admin.component';
+
+
 import { Lasercutter } from '@components/lasercutter/lasercutter.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import {MatTabsModule} from '@angular/material/tabs';
 
 
 
@@ -35,8 +36,10 @@ import {MatTabsModule} from '@angular/material/tabs';
     DragDropModule,
     MatFormFieldModule,
     MatInputModule,
-    BrowserAnimationsModule,
-    MatTabsModule
+    BrowserAnimationsModule
+  ],
+  entryComponents:[
+
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]

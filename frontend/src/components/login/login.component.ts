@@ -20,6 +20,7 @@ export class Login implements OnInit {
     loading = false;
     done = false;
     submitted = false;
+    check: String;
     user: User;
      returnUrl: string;
      error = '';
@@ -42,6 +43,8 @@ export class Login implements OnInit {
 
 
     ngOnInit() {
+
+
       this.submitted = false;
       this.loading = false;
         this.loginForm = this.formBuilder.group({
@@ -62,16 +65,17 @@ export class Login implements OnInit {
         }
         this.loading = true;
 
+
         this.authenticationService.login(this.f.logusername.value, this.f.logpassword.value)
             .subscribe(
-                data => {this.authenticationService.callCheckAuth().subscribe(data=>{
-                  if(data.data[0] =="true"){
-                    this.router.navigate(['/admin']);
-                  } })},
+                data => {
+                  this.authenticationService.isAuthenticated(), console.log(this.authenticationService.adm), this.router.navigate(["/lasercutter"])
+                },
                 error => {
                     this.error = error;
                     this.loading = false;
                 });
+
 
       //  this.lasercutter.loginUser(this.loginForm.value).subscribe( data => {console.log("POST Request is successful ", data),this.done = true});
 

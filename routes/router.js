@@ -48,7 +48,8 @@ if(req.session){
     remove_date: 1,
     check_in_time: 1,
     start_cut_time: 1,
-    finish_cut_time: 1
+    finish_cut_time: 1,
+    staff_checks_complete:1
   }, function(err, lasercutter) {
     if (err) {
       res.json({
@@ -71,6 +72,9 @@ if(req.session){
   return next(err);
 }
 });
+
+
+
 
 
 router.get('/api/lasercutter/:location', function(req, res, next) {
@@ -309,7 +313,7 @@ router.post('/api/lasercutter/admin',  loginRequired, function(req, res, next) {
 
 
 
-    router.put('/api/lasercutter/admin/check/:_id',  loginRequired, function(req, res, next) {
+    router.get('/api/lasercutter/admin/check/:_id',  loginRequired, function(req, res, next) {
 
       LaserCutter.findById(req.params._id)
         .exec(function(error, lasercutter) {
@@ -324,7 +328,7 @@ router.post('/api/lasercutter/admin',  loginRequired, function(req, res, next) {
 
 
             LaserCutter.findByIdAndUpdate(temp_id, {
-              staff_checks_complete: true
+              checks_complete: true
             }, function(err, newbool) {
               if (err) {
                 res.json({

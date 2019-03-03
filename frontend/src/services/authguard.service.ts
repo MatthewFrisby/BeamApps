@@ -11,21 +11,19 @@ import { timer } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AuthGuardService implements CanActivate {
   constructor(
-        private router: Router,
-        private auth: AuthenticationService
-    ) {}
-    check: any;
+    private router: Router,
+    private auth: AuthenticationService
+  ) { }
+  check: any;
 
-  canActivate(route: ActivatedRouteSnapshot): Observable<boolean>{
-
-   this.auth.callCheckAuth().subscribe(data=>{this.check = data.data });
-
-    if ( this.check == "false") {
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    this.auth.isAuthenticated();
+    console.log(this.auth.adm);
+    if (this.auth.adm == "false") {
       this.router.navigate(['/lasercutter']);
-      return Observable.of(false);
-    }else if(this.check == "true"){
-    return Observable.of(true);
-  }
-
+      return false;
+    } else if (this.auth.adm == "true") {
+      return true;
+    }
   }
 }

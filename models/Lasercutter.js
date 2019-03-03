@@ -43,9 +43,9 @@ var LaserCutterSchema = new mongoose.Schema({
       type: Date,
       default: Date.now
     },
-    staff_checks_complete:{
+    checks_complete:{
       type: Boolean,
-      Default: true
+      default: false
     }
 });
 

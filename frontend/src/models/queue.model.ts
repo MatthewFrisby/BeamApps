@@ -14,5 +14,5 @@ export class Queue {
   check_in_time: Number;
   start_cut_time:Number;
   finish_cut_time: Number;
-  staff_checks_complete: Boolean;
+  checks_complete: boolean;
     }

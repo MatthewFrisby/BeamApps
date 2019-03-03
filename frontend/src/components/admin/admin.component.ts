@@ -11,6 +11,9 @@ import { Queue } from '@models/queue.model';
 import { Response } from '@models/response.model';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatListModule} from '@angular/material/list';
+
+
 
 import { LaserCutterService } from '@services/lasercutter.service';
 
@@ -35,13 +38,13 @@ export class Admin implements OnInit {
   responseAll: Response;
   responseHanes: Response;
   responseMurray: Response;
-
+  view: Boolean = false;
   activeMurray: Queue[];
   activeHanes: Queue[];
   murrayQueue: Queue[]=[];
   hanesQueue: Queue[]=[];
 
-  timeLeft: number = 60;
+  timeLeft: number = 10;
   interval;
 
   data: Queue[]=[];
@@ -52,7 +55,17 @@ export class Admin implements OnInit {
 
 
   ngOnInit() {
+    this.timeLeft = 10;
+      clearInterval(this.interval)
+    console.log(this.view);
+    if(this.view == true){
+      this.startTimer(this.view)
+    }else{
 
+      clearInterval(this.interval)
+    }
+
+    
     this.lasercutterForm = this.formBuilder.group({
       name: ['', Validators.required],
       location: ['', Validators.required]
@@ -66,6 +79,24 @@ export class Admin implements OnInit {
 
 
   }
+
+
+  startTimer(bool: Boolean) {
+
+    if(bool == true){
+      this.interval = setInterval(() => {
+        if(this.timeLeft > 0) {
+          this.timeLeft--;
+          console.log(this.timeLeft);
+          //console.log(this.timeLeft);
+        } else {
+          clearInterval(this.interval);
+          this.ngOnInit();
+
+        }
+      },1000)
+    }
+    }
 
    get f() { return this.lasercutterForm.controls; }
 
@@ -101,6 +132,7 @@ export class Admin implements OnInit {
   }
 
 
+
   drop(event: CdkDragDrop<Queue[]>) {
   if (event.previousContainer === event.container) {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -117,7 +149,7 @@ export class Admin implements OnInit {
     var _id = queue._id;
     console.log(_id);
 
-    this.lasercutter.toggleLive(_id, Date.now().toString()).subscribe(response => { console.log(response), this.ngOnInit() })
+    this.lasercutter.toggleLive(_id, Date.now().toString()).subscribe(response => { console.log(response), this.update = false,this.ngOnInit() })
 
     //this.lasercutter.removeUserFromQueueAdmin(_id).subscribe(response => { console.log(response), this.ngOnInit() })
 
@@ -126,20 +158,13 @@ export class Admin implements OnInit {
 
   queueUpOrDown(queue: Queue){
     this.haveUntil(queue, Date.now());
-    this.lasercutter.toggleOnCutter(queue._id, queue.timeLeft).subscribe(response=>{console.log(response), this.ngOnInit()});
+    this.lasercutter.toggleOnCutter(queue._id, queue.timeLeft).subscribe(response=>{console.log(response),this.update = false, this.ngOnInit()});
   }
 
 
-  startTimer() {
-      this.interval = setInterval(() => {
-        if(this.timeLeft > 0) {
-          this.timeLeft--;
-        } else {
-          this.timeLeft = 60;
-          this.ngOnInit();
-        }
-      },1000)
-    }
+
+    update: Boolean = false;
+    queueToUpdate: Queue;
 
     haveUntil(queue: Queue, date: any){
 
@@ -160,6 +185,34 @@ export class Admin implements OnInit {
     getData(){
       this.lasercutter.getData().subscribe(res=>{this.data = res.data});
     }
+    viewLocation: String;
 
+    openSheet(queue: Queue) {
+      console.log(queue);
+    this.queueToUpdate = queue;
+    this.update = true;
+  }
+  inSpaceView(location: String){
+
+
+    if(location == "m"){
+      this.viewLocation = "Murray"
+        this.view = true;
+    }else if(location == "h"){
+      this.viewLocation = "Hanes";
+      this.view = true;
+    }
+    else if(location == "a"){
+      this.view = false;
+      clearInterval(this.interval)
+    }
+
+    console.log(this.view+ " "+ this.viewLocation);
+    this.ngOnInit();
+  }
+
+  verify(_id: String){
+    this.lasercutter.readyToCut(_id).subscribe(data=>{console.log(data), this.update = false, this.ngOnInit()})
+  }
 
 }

@@ -8,6 +8,8 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { Subscription } from 'rxjs/Subscription';
 import { Queue } from '@models/queue.model';
 import { Response } from '@models/response.model';
+import {AuthenticationService } from '@services/authentication.service';
+
 
 
 
@@ -28,9 +30,11 @@ export class Lasercutter implements OnInit{
   constructor(
       private router: Router,
       private lasercutter: LaserCutterService,
+      private authenticationService: AuthenticationService
+
       //private home: Home,
       //private account: Account,
-  ) {}
+  ) {this.authenticationService.isAuthenticated();}
   responseAll: Response;
   responseHanes: Response;
   responseMurray: Response;
@@ -48,7 +52,8 @@ export class Lasercutter implements OnInit{
 
   ngOnInit() {
     //this.lasercutter.getQueue().subscribe(data=>{this.activeQueue=data.data});
-    console.log("still here");
+
+
     this.timeLeft = 5;
     this.sub = this.lasercutter.getQueueAtLocation("Hanes")
     .subscribe(data=>{this.hanesQueue = data.data,

@@ -63,14 +63,22 @@ private isAuth: string;
    return this.http.put<Response>(this._url+'/admin/remove/'+_id, {remove_date: time}, {withCredentials: true });
  }
 
+ toggleCheck(_id: string): Observable<Response>{
+    return this.http.get<Response>(this._url+'/admin/check/'+_id, {withCredentials: true });
+ }
+
  getData(): Observable<Response>{
    const headers = new HttpHeaders({'Content-Type': 'Content-Type: application/xls'});
    return this.http.get<Response>(this._url+"/admin", {withCredentials: true });
  }
 
 
+ inSpaceView(location: String): Observable<Response>{
+   return this.http.get<Response>(this._url+"/admin/inspace/"+location, {withCredentials: true });
+ }
+
  readyToCut(_id: String): Observable<Response>{
-   return this.http.put<Response>(this._url+'/admin/check/'+_id, {_id: _id}, {withCredentials: true });
+   return this.http.get<Response>(this._url+'/admin/check/'+_id, {withCredentials: true });
  }
 
 
