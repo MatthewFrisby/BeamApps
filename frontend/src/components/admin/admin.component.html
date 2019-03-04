@@ -201,9 +201,9 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="row row-center">
-						<div class="col-md-3">
+						<div class="col-md-2">
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-8">
 							<div class="d-flex justify-content-center">
 								<h1 class="text-center">
 									Murray
@@ -219,11 +219,9 @@
 								</div>
 							</div>
 							<ng-template #elseBlockMur>
-								<div cdkDropList #onMurray="cdkDropList" [cdkDropListData]="murrayQueue" [cdkDropListConnectedTo]="[waitMurray]" class="example-list" (cdkDropListDropped)="drop($event)">
-									<div class="card" [ngStyle]="{'background-color': !queueMurray.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 85%" *ngFor="let queueMurray of murrayQueue " cdkDrag>
-										<div class="float-right">
-										
-										</div>
+									<div class=" justify-content-center">
+								<div class ="d-flex">
+									<div class="card" [ngStyle]="{'background-color': !queueMurray.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 35%" *ngFor="let queueMurray of murrayViewO ">
 										<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queueMurray.on_cutter? '#58595b' : '#1D3E55'}">
 											{{queueMurray.name}}
 										</h2>
@@ -236,12 +234,36 @@
 												</h3>
 											</div>
 											<ng-template #elseBlock>
-
 												<h3 class="card-text text-center">User Has Until: {{queueMurray.timeLeft}}</h3>
 											</ng-template>
 										</div>
 									</div>
-								</div>
+									</div>
+									</div>
+
+
+									<div class="card" [ngStyle]="{'background-color': !queueMurrayW.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 35%" *ngFor="let queueMurrayW of murrayViewW ">
+										<div class="float-right">
+
+										</div>
+										<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queueMurrayW.on_cutter? '#58595b' : '#1D3E55'}">
+											{{queueMurrayW.name}}
+										</h2>
+										<div class="card-body">
+
+											<div *ngIf="!queueMurrayW.on_cutter; else elseBlock">
+
+												<h3 class="card-text text-center">
+													Check-In Time: {{queueMurrayW.create_date}}
+												</h3>
+											</div>
+											<ng-template #elseBlock>
+
+												<h3 class="card-text text-center">User Has Until: {{queueMurrayW.timeLeft}}</h3>
+											</ng-template>
+										</div>
+									</div>
+
 							</ng-template>
 						</div>
 					</div>

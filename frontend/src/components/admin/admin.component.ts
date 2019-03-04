@@ -49,23 +49,16 @@ export class Admin implements OnInit {
 
   data: Queue[]=[];
 
-
+  murrayViewW: Queue[];
+  murrayViewO: Queue[];
 
 
 
 
   ngOnInit() {
-    this.timeLeft = 10;
-      clearInterval(this.interval)
-    console.log(this.view);
-    if(this.view == true){
-      this.startTimer(this.view)
-    }else{
 
-      clearInterval(this.interval)
-    }
 
-    
+
     this.lasercutterForm = this.formBuilder.group({
       name: ['', Validators.required],
       location: ['', Validators.required]
@@ -73,9 +66,23 @@ export class Admin implements OnInit {
 
     //this.lasercutter.getQueue().subscribe(data => { this.activeQueue = data.data });
     this.lasercutter.getQueueAtLocationAdmin("Hanes").subscribe(data => { this.hanesQueue = data.data, this.newDate(this.hanesQueue) });
-    this.lasercutter.getQueueAtLocationAdmin("Murray").subscribe(data => { this.murrayQueue = data.data, this.newDate(this.murrayQueue) });
+    this.lasercutter.getQueueAtLocationAdmin("Murray").subscribe(data => { this.murrayQueue = data.data,  this.newDate(this.murrayQueue), this.murrayViewO = this.murrayQueue.slice(0,2), this.murrayViewW = this.murrayQueue.slice(2,)});
 
+    this.timeLeft = 10;
+      clearInterval(this.interval)
+    console.log(this.view);
+    if(this.view == true){
+      if(this.viewLocation=="Murray"){
+         // this.murrayViewW = this.murrayQueue;
+         // this.murrayViewO = this.murrayViewW.splice(0,2)
+         console.log(this.murrayViewO)
+         console.log(this.murrayViewW)
+      }
+      this.startTimer(this.view)
+    }else{
 
+      clearInterval(this.interval)
+    }
 
 
   }
@@ -87,7 +94,7 @@ export class Admin implements OnInit {
       this.interval = setInterval(() => {
         if(this.timeLeft > 0) {
           this.timeLeft--;
-          console.log(this.timeLeft);
+
           //console.log(this.timeLeft);
         } else {
           clearInterval(this.interval);
