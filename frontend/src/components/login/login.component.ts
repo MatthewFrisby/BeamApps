@@ -69,7 +69,7 @@ export class Login implements OnInit {
         this.authenticationService.login(this.f.logusername.value, this.f.logpassword.value)
             .subscribe(
                 data => {
-                  this.authenticationService.isAuthenticated(), console.log(this.authenticationService.adm), this.router.navigate(["/lasercutter"])
+                  this.authenticationService.isAuthenticated(), console.log(this.authenticationService.adm), this.router.navigate(["/admin"])
                 },
                 error => {
                     this.error = error;
