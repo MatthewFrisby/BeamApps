@@ -8,7 +8,9 @@ var app = express();
 
 var corsOptions = {
   credentials: true,
-   origin: 'http://localhost:4200'
+   origin: 'http://localhost:4200',
+  httpOnly: false,
+  secure: false,
 };
 
 function loginRequired (req, res, next) {
