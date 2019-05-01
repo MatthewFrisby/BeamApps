@@ -11,13 +11,12 @@ var cors = require('cors');
 var db = mongoose.connection;
 //connect to MongoDB
 mongoose.connect(  process.env.MONGODB_URI || 'mongodb://localhost:27017/beamapi');
-//mongoose.connect('mongodb://BEAM_admin:password12345@mongodb-persistent-r2xc4-dszj9:27017/beamdb');
 
 
 //handle mongo error
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
-  // we're connected!
+  // we're connected
 });
 
 
@@ -31,22 +30,15 @@ app.use(session({
     mongooseConnection: db
   })
 }));
-
+//initiates json2xls middleware
 app.use(json2xls.middleware);
 
+//serves up production build of angular frontend
 app.use(express.static(__dirname + '/frontend/dist/lasercutterqueue'));
 
-// app.use('/', function(req, res) {
-//   res.sendFile(path.join(__dirname, '/frontend/dist/lasercutterqueue/index.html'), function(err) {
-//     if (err) {
-//       res.status(500).send(err)
-//     }
-//   })
-// })
-
+//function that routes all http requests to https
 function requireHTTPS(req, res, next) {
-  // The 'x-forwarded-proto' check is for Heroku
-  if (req.get('x-forwarded-proto') !== 'https' && process.env.PRODUCTION == "true") {
+  if (!req.secure && process.env.PRODUCTION == "true") {
     return res.redirect('https://' + req.get('host') + req.url);
   }
   next();
@@ -58,8 +50,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({credentials: true, origin: 'http://localhost:4200'}));
 
-// serve static files from template
-//app.use(express.static(__dirname + '/template'));
 
 // include routes
 var routes = require('./routes/router');
