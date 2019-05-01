@@ -38,7 +38,7 @@ app.use(express.static(__dirname + '/frontend/dist/lasercutterqueue'));
 
 //function that routes all http requests to https
 function requireHTTPS(req, res, next) {
-  if (!req.secure && process.env.PRODUCTION == "true") {
+  if (!req.secure && req.get('x-forwarded-proto') !== 'https' && process.env.PRODUCTION == "true") {
     return res.redirect('https://' + req.get('host') + req.url);
   }
   next();
