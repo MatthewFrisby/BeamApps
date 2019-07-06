@@ -18,13 +18,13 @@ import {MatListModule} from '@angular/material/list';
 import { LaserCutterService } from '@services/lasercutter.service';
 
 @Component({
-  selector: 'admin-root',
-  templateUrl: './admin.component.html',
+  selector: 'hanes-root',
+  templateUrl: './hanes.component.html',
   providers: [LaserCutterService],
 })
 
 
-export class Admin implements OnInit {
+export class Hanes implements OnInit {
 
   constructor(
     private router: Router,
@@ -37,16 +37,12 @@ export class Admin implements OnInit {
   lasercutterForm: FormGroup;
   responseAll: Response;
   responseHanes: Response;
-  responseCmike: Response;
   responseMurray: Response;
   view: Boolean = false;
   activeMurray: Queue[];
   activeHanes: Queue[];
-    activeCmike: Queue[];
   murrayQueue: Queue[]=[];
   hanesQueue: Queue[]=[];
-  cmikeQueue: Queue[]=[];
-
 
   timeLeft: number = 10;
   interval;
@@ -70,7 +66,6 @@ export class Admin implements OnInit {
 
     //this.lasercutter.getQueue().subscribe(data => { this.activeQueue = data.data });
     this.lasercutter.getQueueAtLocationAdmin("Hanes").subscribe(data => { this.hanesQueue = data.data, this.newDate(this.hanesQueue) });
-    this.lasercutter.getQueueAtLocationAdmin("Carmichael").subscribe(data => { this.cmikeQueue = data.data, this.newDate(this.cmikeQueue) });
     this.lasercutter.getQueueAtLocationAdmin("Murray").subscribe(data => { this.murrayQueue = data.data,  this.newDate(this.murrayQueue), this.murrayViewO = this.murrayQueue.slice(0,2), this.murrayViewW = this.murrayQueue.slice(2,)});
 
     this.timeLeft = 10;
@@ -114,9 +109,7 @@ export class Admin implements OnInit {
 
 
    re: String = "7";
-   goBack(bool: Boolean){
-     this.update = !bool;
-   }
+
 
   newDate(queueArray: Queue[]){
     for (let queue of queueArray) {

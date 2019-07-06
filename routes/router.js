@@ -206,7 +206,10 @@ router.post('/api/lasercutter/admin',  loginRequired, function(req, res, next) {
     lasercutter.location = "Murray";
   } else if (req.body.location == "hanes") {
     lasercutter.location = "Hanes";
-  } else {
+  }else if (req.body.location == "carmichael" || req.body.location == "cmike") {
+    lasercutter.location = "Carmichael"; 
+  }
+  else {
     lasercutter.location = req.body.location ? req.body.location : lasercutter.location;
   }
   lasercutter.name = req.body.name;

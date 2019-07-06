@@ -1,0 +1,103 @@
+
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row row-center">
+						<div class="col-md-2">
+						</div>
+						<div class="col-md-8">
+							<div class="d-flex justify-content-center">
+								<h1 class="text-center">
+									Murray
+								</h1>
+
+							</div>
+							<br>
+							<div *ngIf="murrayQueue.length == 0; else elseBlockMur">
+								<div class="card" [ngStyle]="{'background-color': '#DDDDDE'}">
+									<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': '#58595b'}">
+										Queue Is Empty
+									</h2>
+								</div>
+							</div>
+							<ng-template #elseBlockMur>
+									<div class=" justify-content-center">
+								<div class ="d-flex">
+									<div class="card" [ngStyle]="{'background-color': !queueMurray.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 35%" *ngFor="let queueMurray of murrayViewO ">
+										<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queueMurray.on_cutter? '#58595b' : '#1D3E55'}">
+											{{queueMurray.name}}
+										</h2>
+										<div class="card-body">
+
+											<div *ngIf="!queueMurray.on_cutter; else elseBlock">
+
+												<h3 class="card-text text-center">
+													Check-In Time: {{queueMurray.create_date}}
+												</h3>
+											</div>
+											<ng-template #elseBlock>
+												<h3 class="card-text text-center">User Has Until: {{queueMurray.timeLeft}}</h3>
+											</ng-template>
+										</div>
+									</div>
+									</div>
+									</div>
+
+
+									<div class="card" [ngStyle]="{'background-color': !queueMurrayW.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 35%" *ngFor="let queueMurrayW of murrayViewW ">
+										<div class="float-right">
+
+										</div>
+										<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queueMurrayW.on_cutter? '#58595b' : '#1D3E55'}">
+											{{queueMurrayW.name}}
+										</h2>
+										<div class="card-body">
+
+											<div *ngIf="!queueMurrayW.on_cutter; else elseBlock">
+
+												<h3 class="card-text text-center">
+													Check-In Time: {{queueMurrayW.create_date}}
+												</h3>
+											</div>
+											<ng-template #elseBlock>
+
+												<h3 class="card-text text-center">User Has Until: {{queueMurrayW.timeLeft}}</h3>
+											</ng-template>
+										</div>
+									</div>
+
+							</ng-template>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<br>
+			<br>
+		</div>
+
+
+
+<div class="fixed-bottom">
+	<div class="float-left">
+		<a href="https://beam-lasercutter.herokuapp.com/api/lasercutter/admin" target="_blank">
+			<button type="button" class="btn btn-primary btn-lg">Download Data</button>
+		</a>
+	</div>
+	<div class="float-right">
+		<a routerLink="/admin">
+			<button type="button" class="btn btn-primary btn-lg">Admin View</button>
+		</a>
+		<a routerLink="/admin/murray">
+		<button type="button" class="btn btn-primary btn-lg">Murray View</button>
+	</a>
+	<a routerLink="/admin/hanes">
+		<button type="button" class="btn btn-primary btn-lg">Hanes View</button>
+	</a>
+	<a routerLink="/admin/carmichael">
+		<button type="button"  class="btn btn-primary btn-lg">Carmichael View</button>
+		</a>
+	</div>
+</div>
+<br>

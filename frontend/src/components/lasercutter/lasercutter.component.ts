@@ -38,14 +38,20 @@ export class Lasercutter implements OnInit{
   responseAll: Response;
   responseHanes: Response;
   responseMurray: Response;
+  responseCmike: Response;
+
 
   activeMurray: Queue[];
+  activeCmike: Queue[];
   activeHanes: Queue[];
   murrayQueue: Queue[] = [];
   hanesQueue: Queue[] = [];
+  cmikeQueue: Queue[] = [];
+
 
   hanesBool: Boolean;
   murrayBool: Boolean;
+  cmikeBool: Boolean;
   timeLeft: number = 10;
   interval;
   stop: Boolean = false;
@@ -56,16 +62,21 @@ export class Lasercutter implements OnInit{
 
     this.timeLeft = 5;
     this.sub = this.lasercutter.getQueueAtLocation("Hanes")
-    .subscribe(data=>{this.hanesQueue = data.data,
-      this.newDate(this.hanesQueue),
-      this.lasercutter.getQueueAtLocation("Murray")
-      .subscribe(data=>{this.murrayQueue = data.data,
-        this.newDate(this.murrayQueue),
-        this.startTimer(true)});});
-
-
-
-
+            .subscribe(data=>{
+                this.hanesQueue = data.data,
+                this.newDate(this.hanesQueue),
+                this.lasercutter.getQueueAtLocation("Murray")
+                      .subscribe(data=>{
+                          this.murrayQueue = data.data,
+                          this.newDate(this.murrayQueue),
+                          this.lasercutter.getQueueAtLocation("Carmichael")
+                          .subscribe(data=>{
+                            this.cmikeQueue = data.data,
+                            this.newDate(this.cmikeQueue),
+                              this.startTimer(true)
+                          })
+                        });
+                      });
   }
 
 

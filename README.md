@@ -9,8 +9,8 @@ Live Laser Cutter Queue
 Steps below to walk you through necessary downloads, installations, and setup
 
 ## Introduction
-This project is divided into two parts: 
-1. the [Node.js](https://nodejs.org/en/), [MongoDB](https://www.mongodb.com/download-center/community), and [Express](https://expressjs.com/) back-end 
+This project is divided into two parts:
+1. the [Node.js](https://nodejs.org/en/), [MongoDB](https://www.mongodb.com/download-center/community), and [Express](https://expressjs.com/) back-end
 2. the [Angular](https://angular.io/) front-end
 
 The app is hosted on [Heroku](https://heroku.com) and can be viewed [Here](http://beam-lasercutter.herokuapp.com)
@@ -50,7 +50,7 @@ This will install the Angular client and create a new path variable. To confirm 
 
 ## Getting The Project
 After installing Node.js, MongoDB, and Angular, open the terminal window and clone this repository by running
-```git clone https://github.com/MatthewFrisby/BeamApps.git``` 
+```git clone https://github.com/MatthewFrisby/BeamApps.git```
 
 Change directories by running
 ```cd beamapps```
@@ -74,7 +74,7 @@ Once complete, open your browser and go to [http://localhost:4200](http://localh
 
 2. Because you have just created a new database when loading, you will not have an admin account registered. To do so, navigate to [http://localhost:3000](http://localhost:3000)  and open your developer tools. In the console of the dev tools, paste and run this command with your own chosen username and password:
 ```
-fetch('http://localhost:3000/lasercutter', {
+fetch('http://localhost:3000/api/lasercutter', {
   method: 'POST',
   body: JSON.stringify({
     username: 'admin',
@@ -90,7 +90,7 @@ fetch('http://localhost:3000/lasercutter', {
 ```
 3. You may run into issues concerning local cookies. This is fine, as that works completely when served. Most browsers refuse to save cookies coming from local sources for security reasons. If you are unable to get access while developing, follow the steps above (#2) but use this command instead:
 ```
-fetch('http://localhost:3000/lasercutter', {
+fetch('http://localhost:3000/api/lasercutter', {
   method: 'POST',
   body: JSON.stringify({
     logusername: 'admin',

@@ -18,13 +18,13 @@ import {MatListModule} from '@angular/material/list';
 import { LaserCutterService } from '@services/lasercutter.service';
 
 @Component({
-  selector: 'admin-root',
-  templateUrl: './admin.component.html',
+  selector: 'carmichael-root',
+  templateUrl: './carmichael.component.html',
   providers: [LaserCutterService],
 })
 
 
-export class Admin implements OnInit {
+export class Carmichael implements OnInit {
 
   constructor(
     private router: Router,
@@ -36,17 +36,13 @@ export class Admin implements OnInit {
   ) { }
   lasercutterForm: FormGroup;
   responseAll: Response;
-  responseHanes: Response;
-  responseCmike: Response;
+  responseCarmichael: Response;
   responseMurray: Response;
   view: Boolean = false;
   activeMurray: Queue[];
-  activeHanes: Queue[];
-    activeCmike: Queue[];
+  activeCarmichael: Queue[];
   murrayQueue: Queue[]=[];
-  hanesQueue: Queue[]=[];
-  cmikeQueue: Queue[]=[];
-
+  carmichaelQueue: Queue[]=[];
 
   timeLeft: number = 10;
   interval;
@@ -69,8 +65,7 @@ export class Admin implements OnInit {
     });
 
     //this.lasercutter.getQueue().subscribe(data => { this.activeQueue = data.data });
-    this.lasercutter.getQueueAtLocationAdmin("Hanes").subscribe(data => { this.hanesQueue = data.data, this.newDate(this.hanesQueue) });
-    this.lasercutter.getQueueAtLocationAdmin("Carmichael").subscribe(data => { this.cmikeQueue = data.data, this.newDate(this.cmikeQueue) });
+    this.lasercutter.getQueueAtLocationAdmin("Carmichael").subscribe(data => { this.carmichaelQueue = data.data, this.newDate(this.carmichaelQueue) });
     this.lasercutter.getQueueAtLocationAdmin("Murray").subscribe(data => { this.murrayQueue = data.data,  this.newDate(this.murrayQueue), this.murrayViewO = this.murrayQueue.slice(0,2), this.murrayViewW = this.murrayQueue.slice(2,)});
 
     this.timeLeft = 10;
@@ -114,9 +109,7 @@ export class Admin implements OnInit {
 
 
    re: String = "7";
-   goBack(bool: Boolean){
-     this.update = !bool;
-   }
+
 
   newDate(queueArray: Queue[]){
     for (let queue of queueArray) {
@@ -134,8 +127,8 @@ export class Admin implements OnInit {
   }
 
   onSubmit() {
-    if(this.lasercutterForm.controls['location'].value == "Hanes Art Center"){
-      this.lasercutterForm.controls['location'].setValue("Hanes");
+    if(this.lasercutterForm.controls['location'].value == "Carmichael"){
+      this.lasercutterForm.controls['location'].setValue("Carmichael");
 
     }
     this.lasercutter.addUserToQueueAdmin(this.lasercutterForm.value).subscribe(data=>{console.log(data), this.ngOnInit()});
@@ -206,24 +199,7 @@ export class Admin implements OnInit {
     this.queueToUpdate = queue;
     this.update = true;
   }
-  inSpaceView(location: String){
 
-
-    if(location == "m"){
-      this.viewLocation = "Murray"
-        this.view = true;
-    }else if(location == "h"){
-      this.viewLocation = "Hanes";
-      this.view = true;
-    }
-    else if(location == "a"){
-      this.view = false;
-      clearInterval(this.interval)
-    }
-
-    console.log(this.view+ " "+ this.viewLocation);
-    this.ngOnInit();
-  }
 
   verify(_id: String){
     this.lasercutter.readyToCut(_id).subscribe(data=>{console.log(data), this.update = false, this.ngOnInit()})

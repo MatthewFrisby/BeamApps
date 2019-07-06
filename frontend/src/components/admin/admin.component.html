@@ -1,4 +1,3 @@
-<div *ngIf="view == false; else inspaceview">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
@@ -55,43 +54,13 @@
 						</ng-template>
 					</div>
 					<div class="col-md-4">
-						<div class="container">
-							<div class="col-md-12">
-								<div>
-									<form [formGroup]="lasercutterForm" layout-align="center center" class="card text-center justify-content-center" (ngSubmit)="onSubmit()">
-										<h2 class="card-header  text-center">
-											Add Patron To Queue
-										</h2>
-										<div class="form-group card-body text-center justify-content-center">
-
-											<input type="text" formControlName="name" placeholder="Name" class="form-control form-control-lg" />
-											<div *ngIf="f.name.errors" class="invalid-feedback">
-												<div *ngIf="f.name.errors.required">Name is required</div>
-											</div>
-										</div>
-										<div class="form-group card-body text-center justify-content-center">
-											<select class="form-control form-control-lg" formControlName="location">
-												<option value="" selected disabled>Location</option>
-												<option>Murray</option>
-												<option>Hanes Art Center</option>
-											</select>
-										</div>
-										<div class="form-group">
-											<button class="btn btn-primary">Add Patron</button>
-										</div>
-									</form>
-
-								</div>
-
-							</div>
-
-						</div>
-						<br>
-						<br>
-						<div *ngIf="update == true">
+						<div *ngIf="update == true; else addPatron">
 							<div class="container">
 								<div class="col-md-12">
 									<div class="card text-center justify-content-center">
+										<button type="button" (click)="goBack(update)" class="btn btn-primary">
+											Go Back
+										</button>
 										<h1 class="card-header  text-center">Patron: {{queueToUpdate.name}}</h1>
 										<h1 class=" text-center">Location: {{queueToUpdate.location}}</h1>
 
@@ -133,6 +102,93 @@
 								</div>
 							</div>
 						</div>
+						<ng-template #addPatron>
+						<div class="container">
+							<div class="col-md-12">
+								<div>
+									<form [formGroup]="lasercutterForm" layout-align="center center" class="card text-center justify-content-center" (ngSubmit)="onSubmit()">
+										<h2 class="card-header  text-center">
+											Add Patron To Queue
+										</h2>
+										<div class="form-group card-body text-center justify-content-center">
+
+											<input type="text" formControlName="name" placeholder="Name" class="form-control form-control-lg" />
+											<div *ngIf="f.name.errors" class="invalid-feedback">
+												<div *ngIf="f.name.errors.required">Name is required</div>
+											</div>
+										</div>
+										<div class="form-group card-body text-center justify-content-center">
+											<select class="form-control form-control-lg" formControlName="location">
+												<option value="" selected disabled>Location</option>
+												<option>Murray</option>
+												<option>Carmichael</option>
+												<option>Hanes Art Center</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<button class="btn btn-primary">Add Patron</button>
+										</div>
+									</form>
+
+								</div>
+
+							</div>
+
+						</div>
+						</ng-template>
+
+						<br>
+						<div class="d-flex justify-content-center">
+							<h1 class="text-center">
+								Carmichael
+							</h1>
+						</div>
+						<br>
+						<div *ngIf="cmikeQueue.length == 0; else elseBlockCmike">
+							<div class="card" [ngStyle]="{'background-color': '#DDDDDE'}">
+								<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': '#58595b'}">
+									Queue Is Empty
+								</h2>
+							</div>
+						</div>
+						<ng-template #elseBlockCmike>
+							<div cdkDropList #onhanes="cdkDropList" [cdkDropListData]="cmikeQueue" [cdkDropListConnectedTo]="[waitCmike]" class="example-list" (cdkDropListDropped)="drop($event)">
+								<div class="card" [ngStyle]="{'background-color': !queueCmike.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 85%" *ngFor="let queueCmike of cmikeQueue " cdkDrag>
+									<div class="float-right">
+										<button type="button" (click)="removeFromQueue(queueCmike)" class="close" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queueCmike.on_cutter? '#58595b' : '#1D3E55'}">
+										{{queueCmike.name}}
+									</h2>
+									<div class="card-body">
+
+										<div *ngIf="!queueCmike.on_cutter; else elseBlock">
+											<div class="float-left">
+												<button type="button" (click)="openSheet(queueCmike)" class="btn btn-primary">
+													Update Status
+												</button>
+											</div>
+											<h3 class="card-text text-center">
+												Check-In Time: {{queueCmike.create_date}}
+											</h3>
+										</div>
+										<ng-template #elseBlock>
+											<div class="float-left">
+												<button type="button" (click)="openSheet(queueCmike)" class="btn btn-light">
+													Update Status
+												</button>
+											</div>
+											<h3 class="card-text text-center">User Has Until: {{queueCmike.timeLeft}}</h3>
+										</ng-template>
+
+									</div>
+								</div>
+							</div>
+						</ng-template>
+						<br>
+
 					</div>
 
 					<div class="col-md-4">
@@ -193,148 +249,6 @@
 		<br>
 		<br>
 	</div>
-</div>
-<ng-template #inspaceview>
-	<div *ngIf="viewLocation == 'Murray'; else Hanes">
-
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="row row-center">
-						<div class="col-md-2">
-						</div>
-						<div class="col-md-8">
-							<div class="d-flex justify-content-center">
-								<h1 class="text-center">
-									Murray
-								</h1>
-
-							</div>
-							<br>
-							<div *ngIf="murrayQueue.length == 0; else elseBlockMur">
-								<div class="card" [ngStyle]="{'background-color': '#DDDDDE'}">
-									<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': '#58595b'}">
-										Queue Is Empty
-									</h2>
-								</div>
-							</div>
-							<ng-template #elseBlockMur>
-									<div class=" justify-content-center">
-								<div class ="d-flex">
-									<div class="card" [ngStyle]="{'background-color': !queueMurray.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 35%" *ngFor="let queueMurray of murrayViewO ">
-										<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queueMurray.on_cutter? '#58595b' : '#1D3E55'}">
-											{{queueMurray.name}}
-										</h2>
-										<div class="card-body">
-
-											<div *ngIf="!queueMurray.on_cutter; else elseBlock">
-
-												<h3 class="card-text text-center">
-													Check-In Time: {{queueMurray.create_date}}
-												</h3>
-											</div>
-											<ng-template #elseBlock>
-												<h3 class="card-text text-center">User Has Until: {{queueMurray.timeLeft}}</h3>
-											</ng-template>
-										</div>
-									</div>
-									</div>
-									</div>
-
-
-									<div class="card" [ngStyle]="{'background-color': !queueMurrayW.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 35%" *ngFor="let queueMurrayW of murrayViewW ">
-										<div class="float-right">
-
-										</div>
-										<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queueMurrayW.on_cutter? '#58595b' : '#1D3E55'}">
-											{{queueMurrayW.name}}
-										</h2>
-										<div class="card-body">
-
-											<div *ngIf="!queueMurrayW.on_cutter; else elseBlock">
-
-												<h3 class="card-text text-center">
-													Check-In Time: {{queueMurrayW.create_date}}
-												</h3>
-											</div>
-											<ng-template #elseBlock>
-
-												<h3 class="card-text text-center">User Has Until: {{queueMurrayW.timeLeft}}</h3>
-											</ng-template>
-										</div>
-									</div>
-
-							</ng-template>
-						</div>
-					</div>
-				</div>
-			</div>
-			<br>
-			<br>
-			<br>
-		</div>
-	</div>
-	<ng-template #Hanes>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="row row-center">
-						<div class="col-md-3">
-						</div>
-						<div class="col-md-6">
-							<div class="d-flex justify-content-center">
-								<h1 class="text-center">
-									Hanes Art Center
-								</h1>
-							</div>
-							<br>
-							<div *ngIf="hanesQueue.length == 0; else elseBlockHan">
-								<div class="card" [ngStyle]="{'background-color': '#DDDDDE'}">
-									<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': '#58595b'}">
-										Queue Is Empty
-									</h2>
-								</div>
-							</div>
-							<ng-template #elseBlockHan>
-								<div cdkDropList #onhanes="cdkDropList" [cdkDropListData]="hanesQueue" [cdkDropListConnectedTo]="[waitHanes]" class="example-list" (cdkDropListDropped)="drop($event)">
-									<div class="card" [ngStyle]="{'background-color': !queueHanes.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 85%" *ngFor="let queueHanes of hanesQueue " cdkDrag>
-										<div class="float-right">
-
-										</div>
-										<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queueHanes.on_cutter? '#58595b' : '#1D3E55'}">
-											{{queueHanes.name}}
-										</h2>
-										<div class="card-body">
-
-											<div *ngIf="!queueHanes.on_cutter; else elseBlock">
-												<div class="float-left">
-
-												</div>
-												<h3 class="card-text text-center">
-													Check-In Time: {{queueHanes.create_date}}
-												</h3>
-											</div>
-											<ng-template #elseBlock>
-												<div class="float-left">
-
-												</div>
-												<h3 class="card-text text-center">User Has Until: {{queueHanes.timeLeft}}</h3>
-											</ng-template>
-
-										</div>
-									</div>
-								</div>
-							</ng-template>
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	</ng-template>
-
-</ng-template>
 <div class="fixed-bottom">
 	<div class="float-left">
 		<a href="https://beam-lasercutter.herokuapp.com/api/lasercutter/admin" target="_blank">
@@ -342,9 +256,18 @@
 		</a>
 	</div>
 	<div class="float-right">
-		<button type="button" (click)="inSpaceView('a')" class="btn btn-primary btn-lg">Admin View</button>
-		<button type="button" (click)="inSpaceView('m')" class="btn btn-primary btn-lg">Murray View</button>
-		<button type="button" (click)="inSpaceView('h')" class="btn btn-primary btn-lg">Hanes View</button>
+		<a routerLink="/admin">
+			<button type="button" class="btn btn-primary btn-lg">Admin View</button>
+		</a>
+		<a routerLink="/admin/murray">
+		<button type="button" class="btn btn-primary btn-lg">Murray View</button>
+	</a>
+	<a routerLink="/admin/hanes">
+		<button type="button" class="btn btn-primary btn-lg">Hanes View</button>
+	</a>
+	<a routerLink="/admin/carmichael">
+		<button type="button"  class="btn btn-primary btn-lg">Carmichael View</button>
+		</a>
 	</div>
 </div>
 <br>

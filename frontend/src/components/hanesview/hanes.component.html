@@ -1,0 +1,78 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row row-center">
+				<div class="col-md-3">
+				</div>
+				<div class="col-md-6">
+					<div class="d-flex justify-content-center">
+						<h1 class="text-center">
+							Hanes Art Center
+						</h1>
+					</div>
+					<br>
+					<div *ngIf="hanesQueue.length == 0; else elseBlockHan">
+						<div class="card" [ngStyle]="{'background-color': '#DDDDDE'}">
+							<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': '#58595b'}">
+								Queue Is Empty
+							</h2>
+						</div>
+					</div>
+					<ng-template #elseBlockHan>
+						<div cdkDropList #onhanes="cdkDropList" [cdkDropListData]="hanesQueue" [cdkDropListConnectedTo]="[waitHanes]" class="example-list" (cdkDropListDropped)="drop($event)">
+							<div class="card" [ngStyle]="{'background-color': !queueHanes.on_cutter? '#DDDDDE' : '#7CAFD4'}" style="width: 85%" *ngFor="let queueHanes of hanesQueue " cdkDrag>
+								<div class="float-right">
+
+								</div>
+								<h2 class="card-header text-center text-white" [ngStyle]="{'background-color': !queueHanes.on_cutter? '#58595b' : '#1D3E55'}">
+									{{queueHanes.name}}
+								</h2>
+								<div class="card-body">
+
+									<div *ngIf="!queueHanes.on_cutter; else elseBlock">
+										<div class="float-left">
+
+										</div>
+										<h3 class="card-text text-center">
+											Check-In Time: {{queueHanes.create_date}}
+										</h3>
+									</div>
+									<ng-template #elseBlock>
+										<div class="float-left">
+
+										</div>
+										<h3 class="card-text text-center">User Has Until: {{queueHanes.timeLeft}}</h3>
+									</ng-template>
+
+								</div>
+							</div>
+						</div>
+					</ng-template>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="fixed-bottom">
+	<div class="float-left">
+		<a href="https://beam-lasercutter.herokuapp.com/api/lasercutter/admin" target="_blank">
+			<button type="button" class="btn btn-primary btn-lg">Download Data</button>
+		</a>
+	</div>
+	<div class="float-right">
+		<a routerLink="/admin">
+			<button type="button" class="btn btn-primary btn-lg">Admin View</button>
+		</a>
+		<a routerLink="/admin/murray">
+		<button type="button" class="btn btn-primary btn-lg">Murray View</button>
+	</a>
+	<a routerLink="/admin/hanes">
+		<button type="button" class="btn btn-primary btn-lg">Hanes View</button>
+	</a>
+	<a routerLink="/admin/carmichael">
+		<button type="button"  class="btn btn-primary btn-lg">Carmichael View</button>
+		</a>
+	</div>
+</div>
+<br>

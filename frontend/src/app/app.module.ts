@@ -7,6 +7,9 @@ import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
 
 import { Admin } from '@components/admin/admin.component';
+import { Murray } from '@components/murrayview/murray.component';
+import { Hanes } from '@components/hanesview/hanes.component';
+import { Carmichael } from '@components/carmichaelview/carmichael.component';
 
 
 import { Lasercutter } from '@components/lasercutter/lasercutter.component';
@@ -26,7 +29,10 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     AppComponent,
     Lasercutter,
     Login,
-    Admin
+    Admin,
+    Hanes,
+    Murray,
+    Carmichael
   ],
   imports: [
     BrowserModule,
